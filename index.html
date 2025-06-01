@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FuelFlux - Fast & Reliable</title>
+    <style>
+        /* 
+        =============================
+        TYPOGRAPHY AND IMPORTS
+        =============================
+        */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        /* 
+        =============================
+        RESET AND GLOBAL VARIABLES
+        =============================
+        */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            /* Main color scheme */
+            --primary: #5BB75B;
+            --secondary: #4CAF50;
+            --background: #ffffff;
+            --surface: #f7f7f7;
+            
+            /* Text colors */
+            --text: #111111;
+            --text-secondary: #666666;
+            
+            /* Other variables */
+            --shadow: rgba(0, 0, 0, 0.05);
+            --button-color: #5BB75B;
+        }
+        
+        /* 
+        =============================
+        BASE STYLES 
+        =============================
+        */
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+        
+        /* Main container wrapper */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        /* 
+        =============================
+        HEADER STYLES
+        =============================
+        */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 10px 0;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            width: 100%;
+        }
+        
+        /* Logo image styling and positioning */
+        .logo-image {
+            width: 334px;
+            height: 80px;
+            /* Move the image: X (right/left), Y (down/up) */
+            transform: translate(-200px, 10px);
+        }
+        
+        /* 
+        =============================
+        MAIN CONTENT STYLES
+        =============================
+        */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0;
+        }
+        
+        /* Fuel nozzle image container */
+        .nozzle-container {
+            position: relative;
+            width: 380px;
+            height: 280px;
+            margin-bottom: 30px;
+        }
+        
+        .nozzle-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        /* Main heading styles */
+        h1 {
+            font-size: 54px;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+        
+        /* Primary color highlight */
+        .highlight {
+            color: var(--primary);
+        }
+        
+        /* Tagline styles container with Fast & Reliable */
+        .tagline-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            margin-bottom: 16px;
+            gap: 15px;
+        }
+        
+        /* "Fast" text styling */
+        .fast {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        /* "Reliable" text styling with outline effect */
+        .reliable {
+            position: relative;
+            text-decoration: none;
+            -webkit-text-stroke: 1px var(--primary);
+            color: transparent;
+            font-weight: 600;
+        }
+        
+        /* Subheading description */
+        .description {
+            font-size: 24px;
+            color: #777;
+            margin-bottom: 30px;
+            font-weight: 400;
+            max-width: 700px;
+        }
+        
+        /* 
+        =============================
+        BUTTON STYLES 
+        =============================
+        */
+        .cta-button {
+            display: inline-block;
+            padding: 16px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            color: white;
+            background-color: var(--button-color);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 330px;
+            text-align: center;
+        }
+        
+        /* Button hover effect */
+        .cta-button:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+        
+        /* Button active/click effect */
+        .cta-button:active {
+            transform: translateY(0);
+        }
+        
+        /* 
+        =============================
+        RESPONSIVE STYLES 
+        =============================
+        */
+        
+        /* Medium screens - Tablets */
+        @media screen and (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .logo-circle {
+                width: 60px;
+                height: 60px;
+            }
+
+            .logo-text {
+                font-size: 32px;
+            }
+            
+            h1 {
+                font-size: 40px;
+            }
+            
+            .tagline-container {
+                font-size: 28px;
+            }
+            
+            .description {
+                font-size: 20px;
+                padding: 0 20px;
+            }
+            
+            .nozzle-container {
+                width: 300px;
+                height: 220px;
+            }
+
+            .cta-button {
+                padding: 14px 34px;
+                font-size: 16px;
+                width: 280px;
+            }
+        }
+        
+        /* Small screens - Mobile phones */
+        @media screen and (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 15px 0;
+                margin-bottom: 30px;
+            }
+
+            .logo-circle {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .logo-text {
+                font-size: 28px;
+            }
+            
+            h1 {
+                font-size: 32px;
+            }
+            
+            .tagline-container {
+                font-size: 24px;
+            }
+            
+            .description {
+                font-size: 18px;
+                padding: 0 15px;
+                margin-bottom: 30px;
+            }
+            
+            .cta-button {
+                padding: 12px 30px;
+                font-size: 15px;
+                width: 240px;
+            }
+            
+            .nozzle-container {
+                width: 240px;
+                height: 180px;
+                margin-bottom: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main container for the entire page -->
+    <div class="container">
+        <!-- Header section with logo -->
+        <header class="header">
+            <div class="logo">
+                <img src="assets/icons/Group 481752.png" alt="FuelFlux Logo" class="logo-image">
+            </div>
+        </header>
+        
+        <!-- Main content section -->
+        <main class="main-content"> 
+            <!-- Fuel nozzle image section -->
+            <div class="nozzle-container">
+                <img src="assets/img/FuleNozzel.png" alt="Fuel nozzle" class="nozzle-image" id="nozzle-image">
+            </div>
+            
+            <!-- Main headline -->
+            <h1>Welcome to <span class="highlight">FuelFlux</span></h1>
+            
+            <!-- Tagline section -->
+            <div class="tagline-container">
+                <span class="fast">Fast</span>
+                &
+                <span class="reliable">Reliable</span>
+            </div>
+            
+            <!-- Description text -->
+            <p class="description">Fuel Up Fast – Locate, Book, and Go!</p>
+            
+            <!-- Call-to-action button -->
+            <a href="Pages/login.html" class="cta-button" id="get-started">GET STARTED</a>
+        </main>
+    </div>
+    
+    <!-- JavaScript for interactive elements -->
+    <script>
+        /**
+         * Button click animation and navigation
+         * 
+         * This script handles the button click effect and navigation
+         * to the login page when the user clicks "GET STARTED"
+         */
+        
+        // Get reference to the button element
+        const getStartedBtn = document.getElementById('get-started');
+        
+        // Add click event listener to the button
+        getStartedBtn.addEventListener('click', (e) => {
+            // Prevent default link behavior
+            e.preventDefault();
+            
+            // Add scale animation for click feedback
+            getStartedBtn.style.transform = 'scale(0.98)';
+            
+            // Wait a short time before navigating to create a visual effect
+            setTimeout(() => {
+                // Navigate to login page
+                window.location.href = 'Pages/login.html';
+            }, 300); // 300ms delay
+        });
+    </script>
+</body>
+</html>

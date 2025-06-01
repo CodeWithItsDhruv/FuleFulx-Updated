@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Pricing Plans</title>
+    <!-- CSS Styles -->
+    <style>
+        /* Global Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Body Styles */
+        body {
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Main Container */
+        .container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            width: 100%;
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Pricing Card Styles */
+        .pricing-card {
+            flex: 1;
+            min-width: 300px;
+            max-width: 350px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Plan Title Styles */
+        .pricing-title {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Plan Color Schemes */
+        .pricing-title.silver {
+            color: #7a7a7a;
+        }
+
+        .pricing-title.golden {
+            color: #e6a52f;
+        }
+
+        .pricing-title.platinum {
+            color: #000000;
+        }
+
+        /* Pricing Tab Controls */
+        .pricing-tabs {
+            display: flex;
+            background-color: #f7f7f7;
+            border-radius: 50px;
+            padding: 5px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .pricing-tab {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 50px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-tab.active {
+            background-color: #0a1029;
+            color: white;
+        }
+
+        /* Price Display */
+        .pricing-amount {
+            font-size: 42px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .pricing-duration {
+            color: #888;
+            margin-bottom: 25px;
+        }
+
+        /* Features List */
+        .features-list {
+            list-style-type: none;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .feature-item svg {
+            color: #4CAF50;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        /* Button Styles */
+        .subscribe-btn {
+            width: 100%;
+            padding: 15px 0;
+            background-color: #63c47e;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: auto;
+        }
+
+        .subscribe-btn:hover {
+            background-color: #2ECC71;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .pricing-card {
+                width: 100%;
+                max-width: 450px;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ======== SILVER PLAN CARD ======== -->
+        <div class="pricing-card">
+            <h2 class="pricing-title silver">Silver</h2>
+            <!-- Pricing Period Tabs -->
+            <div class="pricing-tabs">
+                <div class="pricing-tab active" data-period="monthly" data-card="silver">Monthly</div>
+                <div class="pricing-tab" data-period="biannual" data-card="silver">6 Month</div>
+                <div class="pricing-tab" data-period="annual" data-card="silver">Annual</div>
+            </div>
+            <!-- Price Display -->
+            <div class="pricing-amount" id="silver-price">₹5,000</div>
+            <div class="pricing-duration">per month</div>
+            <!-- Features List -->
+            <ul class="features-list">
+                <li class="feature-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Smoke and Fire detection
+                </li>
+                <li class="feature-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Number plate detection system
+                </li>
+            </ul>
+            <!-- Subscribe Button -->
+            <button class="subscribe-btn">Subscribe Now</button>
+        </div>
+
+        <!-- ======== GOLDEN PLAN CARD ======== -->
+        <div class="pricing-card">
+            <h2 class="pricing-title golden">Golden</h2>
+            <!-- Pricing Period Tabs -->
+            <div class="pricing-tabs">
+                <div class="pricing-tab active" data-period="monthly" data-card="golden">Monthly</div>
+                <div class="pricing-tab" data-period="biannual" data-card="golden">6 Month</div>
+                <div class="pricing-tab" data-period="annual" data-card="golden">Annual</div>
+            </div>
+            <!-- Price Display -->
+            <div class="pricing-amount" id="golden-price">₹10,000</div>
+            <div class="pricing-duration">per month</div>
+            <!-- Features List -->
+            <ul class="features-list">
+                <li class="feature-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    All silver features
+                </li>
+                <li class="feature-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Billing system
+                </li>
+                <li class="feature-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Vehicle verification
+                </li>
+                <li class="feature-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Station vehicle data
+                </li>
+            </ul>
+            <!-- Subscribe Button -->
+            <button class="subscribe-btn">Subscribe Now</button>
+        </div>
+
+        <!-- ======== PLATINUM PLAN CARD ======== -->
+        <div class="pricing-card">
+            <h2 class="pricing-title platinum">Platinum</h2>
+            <!-- Pricing Period Tabs -->
+            <div class="pricing-tabs">
+                <div class="pricing-tab active" data-period="monthly" data-card="platinum">Monthly</div>
+                <div class="pricing-tab" data-period="biannual" data-card="platinum">6 Month</div>
+                <div class="pricing-tab" data-period="annual" data-card="platinum">Annual</div>
+            </div>
+            <!-- Price Display -->
+            <div class="pricing-amount" id="platinum-price">₹15,000</div>
+            <div class="pricing-duration">per month</div>
+            <!-- Features List -->
+            <ul class="features-list">
+                <li class="feature-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    All silver & Golden feature
+                </li>
+                <li class="feature-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Real-time data hour wise
+                </li>
+                <li class="feature-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Employee working monitoring
+                </li>
+                <li class="feature-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Working method analysis
+                </li>
+                <li class="feature-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Hydrotesting system
+                </li>
+            </ul>
+            <!-- Subscribe Button -->
+            <button class="subscribe-btn">Subscribe Now</button>
+        </div>
+    </div>
+
+    <!-- JavaScript for Interactive Pricing -->
+    <script>
+        // =====================================================
+        // Pricing Data Configuration
+        // =====================================================
+        // Define pricing for each plan and billing period
+        // Monthly prices are base prices
+        // Biannual prices include 5% discount
+        // Annual prices include 10% discount
+        const pricingData = {
+            silver: {
+                monthly: 5000,
+                biannual: 4750,  // 5% discount
+                annual: 4500     // 10% discount
+            },
+            golden: {
+                monthly: 10000,
+                biannual: 9500,  // 5% discount
+                annual: 9000     // 10% discount
+            },
+            platinum: {
+                monthly: 15000,
+                biannual: 14250, // 5% discount
+                annual: 13500    // 10% discount
+            }
+        };
+
+        // =====================================================
+        // Tab Switching Functionality
+        // =====================================================
+        // Get all pricing tabs
+        const tabs = document.querySelectorAll('.pricing-tab');
+
+        // Add click event listeners to all tabs
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Get the plan type (silver, golden, platinum)
+                const card = this.dataset.card;
+                
+                // Remove active class from all tabs in the same card
+                document.querySelectorAll(`.pricing-tab[data-card="${card}"]`).forEach(t => {
+                    t.classList.remove('active');
+                });
+                
+                // Add active class to the clicked tab
+                this.classList.add('active');
+                
+                // Get the selected billing period (monthly, biannual, annual)
+                const period = this.dataset.period;
+                
+                // Find the price display element for the current plan
+                const priceElement = document.getElementById(`${card}-price`);
+                
+                // Update price based on the selected period and plan
+                priceElement.textContent = `₹${pricingData[card][period].toLocaleString()}`;
+                
+                // Update the billing period text
+                const durationElement = priceElement.nextElementSibling;
+                
+                if (period === 'monthly') {
+                    durationElement.textContent = 'per month';
+                } else if (period === 'biannual') {
+                    durationElement.textContent = 'per month (billed 6-monthly)';
+                } else if (period === 'annual') {
+                    durationElement.textContent = 'per month (billed annually)';
+                }
+            });
+        });
+
+        // =====================================================
+        // Subscription Button Click Handler
+        // =====================================================
+        const subscribeButtons = document.querySelectorAll('.subscribe-btn');
+        
+        // Add click handlers to all subscription buttons
+        subscribeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Get the plan type (silver, golden, platinum)
+                const card = this.closest('.pricing-card').querySelector('.pricing-title').textContent.toLowerCase();
+                
+                // Get the selected billing period
+                const activePeriod = this.closest('.pricing-card').querySelector('.pricing-tab.active').dataset.period;
+                
+                // Show confirmation message (would typically redirect to checkout)
+                alert(`You have selected the ${card} plan with ${activePeriod} billing.`);
+                // Here you would typically redirect to a checkout page or show a payment form
+            });
+        });
+    </script>
+</body>
+</html>

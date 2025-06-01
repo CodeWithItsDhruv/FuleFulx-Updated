@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FuelFlux - Account</title>
+    <!-- CSS Styles Section -->
+    <style>
+        /* Global Reset - Basic styling reset for consistent rendering */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Body Styles - Full viewport height with centered content */
+        body {
+            background-color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Main Container - Holds the entire login/register card */
+        .account-container {
+            background: #ffffff;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 640px;
+            overflow: hidden;
+            color: #333;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Header Section - Dark background with logo and welcome text */
+        .header {
+            background: #121a28;
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        /* Logo Styling - Container for logo image and text */
+        .logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .logo img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: white;
+            padding: 10px;
+        }
+
+        .logo-text {
+            margin-top: 8px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /* Welcome Message Styling */
+        .welcome-text {
+            font-size: 28px;
+            margin: 16px 0;
+            font-weight: normal;
+        }
+
+        .welcome-text span {
+            color: #4cd964;
+            font-weight: bold;
+        }
+
+        /* Subtitle below welcome message */
+        .subtitle {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #e0e0e0;
+        }
+
+        /* Tab Navigation - Login/Register switcher */
+        .tabs {
+            display: flex;
+            background: #ffffff;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 16px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .tab.active {
+            color: #4169e1;
+            border-bottom: 2px solid #4169e1;
+            font-weight: bold;
+        }
+
+        .tab:not(.active) {
+            color: #333;
+        }
+
+        /* Form Container - Holds both login and register forms */
+        .form-container {
+            padding: 30px;
+        }
+
+        /* Form Group - Container for label and input */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            color: #333;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input::placeholder {
+            color: #999;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #4169e1;
+        }
+
+        /* Terms Checkbox - For registration form */
+        .terms {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .terms input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #4169e1;
+        }
+
+        .terms a {
+            color: #4169e1;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .terms a:hover {
+            text-decoration: underline;
+        }
+
+        /* Remember Me and Forgot Password - Login form options */
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            font-size: 14px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #333;
+        }
+
+        .remember-me input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #4169e1;
+        }
+
+        .forgot-password {
+            color: #4169e1;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        /* Primary Action Button - Login/Register button */
+        .action-button {
+            width: 100%;
+            padding: 14px;
+            background: #4169e1;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-button:hover {
+            background: #3a5cd0;
+        }
+
+        /* Divider Line - "or continue with" section */
+        .divider {
+            text-align: center;
+            margin: 24px 0;
+            position: relative;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            height: 1px;
+            background: #e0e0e0;
+            flex: 1;
+        }
+
+        /* Social Login Buttons - Alternative login methods */
+        .social-login {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .social-button {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            background: #f7f7f7;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .social-button img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .social-button:hover {
+            background: #f0f0f0;
+            transform: translateY(-1px);
+        }
+
+        /* Page Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 14px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        /* Form Display Control - Shows/hides login and register forms */
+        #loginForm, #registerForm {
+            display: none;
+        }
+
+        #loginForm.active, #registerForm.active {
+            display: block;
+        }
+
+        /* Notification Styling - For password reset confirmation */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #4cd964;
+            color: white;
+            padding: 16px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .notification-icon {
+            margin-right: 12px;
+            font-size: 20px;
+        }
+
+        .notification-message {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* Responsive Design - Mobile adjustments */
+        @media screen and (max-width: 768px) {
+            .account-container {
+                max-width: 90%;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .account-container {
+                max-width: 100%;
+                border-radius: 0;
+            }
+
+            .form-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Account Container -->
+    <div class="account-container">
+        <!-- Header Section with Logo and Welcome Message -->
+        <div class="header">
+            <div class="logo">
+                <img src="assets/icons/gas-pump.png" alt="FuelFlux Logo">
+                <span class="logo-text">FuelFlux</span>
+            </div>
+            <h1 class="welcome-text">Welcome to <span>FuelFlux</span></h1>
+            <p class="subtitle">Fast & Reliable fuel delivery service at your fingertips. Find the nearest fuel stations and book with ease.</p>
+        </div>
+
+        <!-- Login/Register Tab Navigation -->
+        <div class="tabs">
+            <div class="tab" id="loginTab">Login</div>
+            <div class="tab active" id="registerTab">Register</div>
+        </div>
+
+        <!-- Forms Container -->
+        <div class="form-container">
+            <!-- Login Form -->
+            <form id="loginForm" onsubmit="event.preventDefault(); validateLoginForm();">
+                <!-- Email Field -->
+                <div class="form-group">
+                    <label for="loginEmail">Username or Email</label>
+                    <input type="text" id="loginEmail" placeholder="Enter username or email (try 'admin')" required>
+                </div>
+
+                <!-- Password Field -->
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password (try 'admin')" required>
+                </div>
+
+                <!-- Remember Me and Forgot Password Options -->
+                <div class="remember-forgot">
+                    <label class="remember-me">
+                        <input type="checkbox" id="remember">
+                        Remember me
+                    </label>
+                    <a href="#" class="forgot-password" id="forgotPasswordBtn">Forgot Password?</a>
+                </div>
+
+                <!-- Login Button -->
+                <button type="submit" class="action-button">Login</button>
+
+                <!-- Social Login Section -->
+                <div class="divider">or continue with</div>
+
+                <div class="social-login">
+                    <div class="social-button" onclick="socialAuth('register', 'google')">
+                        <img src="assets/icons/google.png" alt="Google">
+                    </div>
+                    <div class="social-button" onclick="socialAuth('register', 'facebook')">
+                        <img src="assets/icons/facebook.png" alt="Facebook">
+                    </div>
+                </div>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm" class="active" onsubmit="event.preventDefault(); validateRegisterForm();">
+                <!-- Full Name Field -->
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" placeholder="Enter your full name" required>
+                </div>
+
+                <!-- Email Field -->
+                <div class="form-group">
+                    <label for="registerEmail">Email Address</label>
+                    <input type="email" id="registerEmail" placeholder="Enter your email address" required>
+                </div>
+
+                <!-- Password Field -->
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" placeholder="Create a strong password" required>
+                </div>
+
+                <!-- Mobile Number Field -->
+                <div class="form-group">
+                    <label for="mobile">Mobile Number</label>
+                    <input type="tel" id="mobile" placeholder="Enter your mobile number" required>
+                </div>
+
+                <!-- Terms and Conditions Checkbox -->
+                <div class="terms">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">I agree to <a href="#">Terms</a> & <a href="#">Privacy Policy</a></label>
+                </div>
+
+                <!-- Register Button -->
+                <button type="submit" class="action-button">Create Account</button>
+
+                <!-- Social Registration Section -->
+                <div class="divider">or continue with</div>
+
+                <div class="social-login">
+                    <div class="social-button" onclick="socialAuth('register', 'google')">
+                        <img src="assets/icons/google.png" alt="Google">
+                    </div>
+                    <div class="social-button" onclick="socialAuth('register', 'facebook')">
+                        <img src="assets/icons/facebook.png" alt="Facebook">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Footer with Copyright Information -->
+        <div class="footer">
+            © 2025 FuelFlux All rights reserved
+        </div>
+    </div>
+
+    <!-- Notification Element for Password Reset -->
+    <div class="notification" id="notification">
+        <div class="notification-icon">✓</div>
+        <div class="notification-message">Reset mail sent successfully!</div>
+    </div>
+
+    <!-- JavaScript Section -->
+    <script>
+        // =====================================================
+        // Tab Navigation Functionality
+        // =====================================================
+        // Get tab and form elements
+        const loginTab = document.getElementById('loginTab');
+        const registerTab = document.getElementById('registerTab');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+
+        // Event listener for login tab
+        loginTab.addEventListener('click', function() {
+            // Update active status for tabs
+            loginTab.classList.add('active');
+            registerTab.classList.remove('active');
+            
+            // Show login form, hide register form
+            loginForm.classList.add('active');
+            registerForm.classList.remove('active');
+        });
+
+        // Event listener for register tab
+        registerTab.addEventListener('click', function() {
+            // Update active status for tabs
+            registerTab.classList.add('active');
+            loginTab.classList.remove('active');
+            
+            // Show register form, hide login form
+            registerForm.classList.add('active');
+            loginForm.classList.remove('active');
+        });
+
+        // =====================================================
+        // Forgot Password Functionality
+        // =====================================================
+        const forgotPasswordBtn = document.getElementById('forgotPasswordBtn');
+        const notification = document.getElementById('notification');
+
+        // Event listener for forgot password button
+        forgotPasswordBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Show notification to user
+            showNotification();
+            
+            // In a real application, you would also send a request to the server here
+        });
+
+        // Function to show and auto-hide notification
+        function showNotification() {
+            notification.classList.add('show');
+            
+            // Hide notification after 3 seconds
+            setTimeout(function() {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // =====================================================
+        // Form Validation Functions
+        // =====================================================
+        // Login form validation
+        function validateLoginForm() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // Check for admin static credentials (demo purposes)
+            if (email === 'admin' && password === 'admin') {
+                // Redirect to admin dashboard
+                window.location.href = 'admin.html';
+                return true;
+            }
+            
+            // Check for empty fields
+            if (!email || !password) {
+                alert('Please fill in all required fields');
+                return false;
+            }
+            
+            // Email format validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address');
+                return false;
+            }
+            
+            // Here you would normally send data to server
+            alert('Login successful! (This is a demo message)');
+            return true;
+        }
+        
+        // Register form validation
+        function validateRegisterForm() {
+            // Get all form field values
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const mobile = document.getElementById('mobile').value;
+            const terms = document.getElementById('terms').checked;
+            
+            // Check for empty fields
+            if (!name || !email || !password || !mobile) {
+                alert('Please fill in all required fields');
+                return false;
+            }
+            
+            // Email format validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address');
+                return false;
+            }
+            
+            // Password strength validation
+            if (password.length < 8) {
+                alert('Password must be at least 8 characters long');
+                return false;
+            }
+            
+            // Mobile number validation (10 digits)
+            const mobileRegex = /^\d{10}$/;
+            if (!mobileRegex.test(mobile.replace(/\D/g, ''))) {
+                alert('Please enter a valid 10-digit mobile number');
+                return false;
+            }
+            
+            // Terms acceptance validation
+            if (!terms) {
+                alert('You must agree to the Terms and Privacy Policy');
+                return false;
+            }
+            
+            // Here you would normally send data to server
+            alert('Registration successful! (This is a demo message)');
+            return true;
+        }
+        
+        // =====================================================
+        // Social Authentication Handling
+        // =====================================================
+        // Handler for social login/registration buttons
+        function socialAuth(type, platform) {
+            alert(`${platform} ${type} clicked. This would integrate with ${platform} authentication.`);
+        }
+    </script>
+</body>
+</html>

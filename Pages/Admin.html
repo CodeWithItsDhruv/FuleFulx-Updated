@@ -1,0 +1,3895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FuelFlux - Admin Dashboard</title>
+    <style>
+        /* ========================================
+           GLOBAL STYLES & RESET
+           ======================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        
+      
+        /* ========================================
+           HEADER STYLES
+           ======================================== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            border-bottom: 1px solid #eaedf3;
+            background-color: #fff;
+        }
+        
+        /* Logo container styles */
+        .logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    margin-right: 15px;
+    position: relative; /* Allows positioning adjustments */
+}
+
+.logo img {
+    height: 60px;        /* Set the desired height */
+    width: 60px;        /* Set the desired width */
+    position: relative;
+    top: 5px;            /* Moves image down */
+    left: -5px;          /* Moves image to the right */
+    /* Optional */
+    /* right: 0; */
+    /* bottom: 0; */
+}
+        
+        .dashboard-title {
+            font-size: 26px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        /* Header right section with notifications and logout */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .notification-icon {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .logout-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            background-color: #f0f2f5;
+            color: #333;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .logout-btn:hover {
+            background-color: #e1e5eb;
+        }
+        
+        /* ========================================
+           MAIN CONTENT LAYOUT
+           ======================================== */
+        .main-content {
+            display: flex;
+            min-height: calc(100vh - 100px);
+        }
+        
+        /* ========================================
+           SIDEBAR NAVIGATION
+           ======================================== */
+        .sidebar {
+            width: 280px;
+            background-color: #fff;
+            border-right: 1px solid #eaedf3;
+            padding: 15px 0;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 14px 25px;
+            color: #555;
+            font-size: 16px;
+            text-decoration: none;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+            transition: all 0.2s ease;
+            margin-bottom: 5px;
+        }
+        
+        .nav-item:hover {
+            background-color: #f5f7fa;
+        }
+        
+        .nav-item.active {
+            background-color: #ecf9ef;
+            border-left: 4px solid #4CAF50;
+            color: #4CAF50;
+            font-weight: 500;
+        }
+        
+        .nav-item.active svg path {
+            fill: #4CAF50;
+        }
+        
+        .nav-icon {
+            margin-right: 15px;
+            width: 24px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* ========================================
+           MAIN CONTENT AREA
+           ======================================== */
+        .content {
+            flex: 1;
+            padding: 30px;
+            background-color: #f5f7fa;
+        }
+        
+        /* ========================================
+           DASHBOARD STAT CARDS
+           ======================================== */
+        .stat-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .stat-card {
+            padding: 24px;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+            transition: transform 0.2s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-title {
+            font-size: 16px;
+            color: #6c757d;
+            margin-bottom: 15px;
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        
+        /* ========================================
+           CROWD STATUS SECTION
+           ======================================== */
+        .crowd-status {
+            border-radius: 10px;
+            background-color: white;
+            padding: 24px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+        }
+        
+        .status-title {
+            font-size: 16px;
+            color: #6c757d;
+            margin-bottom: 15px;
+        }
+        
+        .status-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        
+        /* ========================================
+           CAMERA FEED SECTION
+           ======================================== */
+        .camera-section {
+            border-radius: 10px;
+            background-color: white;
+            padding: 24px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .view-all {
+            color: #4CAF50;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .view-all:hover {
+            text-decoration: underline;
+        }
+        
+        .camera-feed {
+            width: 100%;
+            height: 300px;
+            background-color: #0f1520;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Live indicator with pulsing animation */
+        .live-indicator {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            color: #ff3030;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .live-dot {
+            width: 10px;
+            height: 10px;
+            background-color: #ff3030;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+        
+        /* Pulsing animation for live indicator */
+        @keyframes pulse {
+            0% {
+                transform: scale(0.95);
+                opacity: 0.7;
+            }
+            70% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0.95);
+                opacity: 0.7;
+            }
+        }
+        
+        .camera-placeholder {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 14px;
+        }
+        
+        .camera-placeholder img {
+            margin-bottom: 10px;
+            opacity: 0.7;
+        }
+        
+        /* ========================================
+           GLOBAL STYLES REPEATED - To clean up in production
+           ======================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+                
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+        }
+
+        /* ========================================
+           HEADER STYLES - Repeated
+           ======================================== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            border-bottom: 1px solid #eaedf3;
+            background-color: #fff;
+        }
+                
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+                
+        .logo {
+            margin-right: 15px;
+            position: relative;
+        }
+                
+        .logo img {
+            height: 50px;
+            width: 50px;
+        }
+                
+        .page-title {
+            font-size: 26px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+                
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+                
+        .notification-icon {
+            position: relative;
+            cursor: pointer;
+        }
+                
+        .logout-btn {
+            padding: 10px 20px;
+            border: 1px solid #eaedf3;
+            border-radius: 6px;
+            background-color: #fff;
+            color: #333;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+                
+        .logout-btn:hover {
+            background-color: #f0f2f5;
+        }
+                
+        /* ========================================
+           MAIN CONTENT LAYOUT - Repeated
+           ======================================== */
+        .main-content {
+            display: flex;
+            min-height: calc(100vh - 80px);
+        }
+                
+        /* ========================================
+           SIDEBAR NAVIGATION - Repeated
+           ======================================== */
+        .sidebar {
+            width: 280px;
+            background-color: #fff;
+            border-right: 1px solid #eaedf3;
+            padding: 15px 0;
+        }
+                
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 14px 25px;
+            color: #555;
+            font-size: 16px;
+            text-decoration: none;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+            transition: all 0.2s ease;
+            margin-bottom: 5px;
+        }
+                
+        .nav-item:hover {
+            background-color: #f5f7fa;
+        }
+                
+        .nav-item.active {
+            background-color: #ecf9ef;
+            border-left: 4px solid #4CAF50;
+            color: #4CAF50;
+            font-weight: 500;
+        }
+                
+        .nav-icon {
+            margin-right: 15px;
+            width: 24px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+                
+        /* ========================================
+           CONTENT AREA - Repeated
+           ======================================== */
+        .content {
+            flex: 1;
+            padding: 30px;
+            background-color: #f5f7fa;
+        }
+                
+        /* ========================================
+           SEARCH AND FILTER SECTION
+           ======================================== */
+        .filter-section {
+            display: flex;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+                
+        .search-container {
+            flex: 1;
+            position: relative;
+        }
+                
+        .search-input {
+            width: 100%;
+            padding: 12px 20px 12px 45px;
+            border: 1px solid #eaedf3;
+            border-radius: 6px;
+            font-size: 16px;
+            background-color: #fff;
+        }
+                
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+        }
+                
+        /* Filter, today and refresh button styles */
+        .filter-btn, .today-btn, .refresh-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            border: 1px solid #eaedf3;
+            border-radius: 6px;
+            background-color: #fff;
+            color: #333;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .filter-btn:hover, .today-btn:hover, .refresh-btn:hover {
+            background-color: #f0f2f5;
+        }
+        
+        /* ========================================
+           LOADING SPINNER STYLES
+           ======================================== */
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 4px solid #4CAF50;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-spinner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 0;
+            width: 100%;
+            text-align: center;
+            color: #6c757d;
+            font-size: 16px;
+        }
+                
+        /* ========================================
+           BOOKING CARD STYLES
+           ======================================== */
+        .booking-card {
+            background-color: #fff;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+            position: relative;
+        }
+                
+        .booking-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+                
+        .booking-id {
+            font-size: 22px;
+            color: #6c757d;
+        }
+                
+        /* Status indicator styles */
+        .booking-status {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+                
+        .status-confirmed {
+            background-color: #ecf9ef;
+            color: #28a745;
+        }
+                
+        .status-pending {
+            background-color: #fff8e0;
+            color: #ffc107;
+        }
+                
+        .customer-name {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+                
+        .pump-location {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #6c757d;
+            margin-bottom: 20px;
+        }
+                
+        .booking-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+                
+        .detail-label {
+            font-size: 14px;
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+                
+        .detail-value {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+                
+        .view-details {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            color: #4a6fdc;
+            font-weight: 500;
+            text-decoration: none;
+            gap: 5px;
+        }
+                
+        .view-details:hover {
+            text-decoration: underline;
+        }
+                
+        .more-options {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            cursor: pointer;
+        }
+
+        /* ========================================
+           SECTION CONTENT STYLES
+           ======================================== */
+        .section-content {
+            display: none;
+        }
+
+        /* ========================================
+           TABS FOR SECTIONS
+           ======================================== */
+        .section-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            background-color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+        }
+
+        .section-tab {
+            padding: 10px 20px;
+            border-radius: 6px;
+            background-color: #f5f7fa;
+            color: #555;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .section-tab.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .section-tab:hover:not(.active) {
+            background-color: #e1e5eb;
+        }
+
+        /* ========================================
+           SECTION CARDS
+           ======================================== */
+        .section-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+        }
+
+        .section-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-card-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .section-card-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* ========================================
+           SECTION ITEM STYLES
+           ======================================== */
+        .section-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            transition: all 0.2s ease;
+        }
+
+        .section-item:hover {
+            background-color: #f0f2f5;
+            transform: translateX(5px);
+        }
+
+        .section-item-name {
+            font-size: 18px;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .section-item-details {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-item-status {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .section-item-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .section-action-btn {
+            padding: 8px;
+            border-radius: 6px;
+            background-color: #ecf9ef;
+            color: #4CAF50;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .section-action-btn:hover {
+            background-color: #d4f7d4;
+        }
+
+        /* ========================================
+           EMPLOYEE SECTION STYLES
+           ======================================== */
+        .add-employee-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .add-employee-btn:hover {
+            background-color: #3d9140;
+        }
+        
+        .export-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border: 1px solid #eaedf3;
+            border-radius: 6px;
+            background-color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .export-btn:hover {
+            background-color: #f0f2f5;
+        }
+        
+        /* Employee table structure */
+        .employee-table {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+            margin-top: 20px;
+        }
+        
+        .employee-table-header {
+            display: flex;
+            background-color: #f8f9fa;
+            padding: 15px 20px;
+            font-weight: 600;
+            color: #6c757d;
+            border-bottom: 1px solid #eaedf3;
+        }
+        
+        .employee-item {
+            display: flex;
+            padding: 15px 20px;
+            border-bottom: 1px solid #eaedf3;
+            transition: background-color 0.2s;
+        }
+        
+        .employee-item:last-child {
+            border-bottom: none;
+        }
+        
+        .employee-item:hover {
+            background-color: #f9f9f9;
+        }
+        
+        /* Column layout for employee table */
+        .employee-column {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+        
+        .name-column {
+            flex: 1.5;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .position-column {
+            flex: 1.2;
+        }
+        
+        .status-column {
+            flex: 0.8;
+        }
+        
+        .contact-column {
+            flex: 1.2;
+        }
+        
+        .action-column {
+            flex: 0.8;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        /* Employee avatar and status styles */
+        .employee-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: #e9ecef;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .employee-name {
+            font-weight: 500;
+            color: #2c3e50;
+        }
+        
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .status-active {
+            background-color: #e8f5e9;
+            color: #4CAF50;
+        }
+        
+        .status-leave {
+            background-color: #fff8e1;
+            color: #ffc107;
+        }
+        
+        /* Employee action buttons */
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .action-btn:hover {
+            background-color: #f0f2f5;
+        }
+        
+        .edit-btn {
+            color: #4A6FDC;
+        }
+        
+        .delete-btn {
+            color: #E53935;
+        }
+
+        /* ========================================
+           SALES ANALYTICS STYLES
+           ======================================== */
+        .sales-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+        }
+        
+        .sales-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .sales-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        /* Time period dropdown */
+        .time-dropdown {
+            padding: 8px 15px;
+            border: 1px solid #eaedf3;
+            border-radius: 6px;
+            background-color: white;
+            font-size: 15px;
+            color: #333;
+            cursor: pointer;
+            outline: none;
+        }
+        
+        /* Sales values and change indicators */
+        .sales-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .sales-change {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+        
+        .sales-change.positive {
+            color: #4CAF50;
+        }
+        
+        .sales-change.negative {
+            color: #E53935;
+        }
+        
+        /* Chart container */
+        .sales-chart {
+            height: 200px;
+            width: 100%;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .sales-chart img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Transactions section */
+        .transactions-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 24px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+        }
+        
+        .transactions-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .transaction-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        /* Transaction table structure */
+        .transactions-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table-header {
+            display: flex;
+            padding: 15px 0;
+            border-bottom: 1px solid #eaedf3;
+        }
+        
+        .table-row {
+            display: flex;
+            padding: 15px 0;
+            border-bottom: 1px solid #eaedf3;
+        }
+        
+        .table-row:last-child {
+            border-bottom: none;
+        }
+        
+        .table-cell {
+            flex: 1;
+            padding: 0 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .table-header .table-cell {
+            font-weight: 600;
+            color: #6c757d;
+        }
+        
+        .table-row .table-cell {
+            color: #2c3e50;
+        }
+        
+        /* Transaction table column widths */
+        .transaction-id {
+            flex: 1.2;
+        }
+        
+        .date {
+            flex: 1;
+        }
+        
+        .fuel-type {
+            flex: 0.8;
+        }
+        
+        .volume {
+            flex: 0.8;
+        }
+        
+        .amount {
+            flex: 0.8;
+        }
+        
+        .payment-method {
+            flex: 1.2;
+        }
+        
+        .status {
+            flex: 1;
+        }
+        
+        /* Transaction status badges */
+        .status-completed {
+            padding: 5px 10px;
+            background-color: #e8f5e9;
+            color: #4CAF50;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .status-pending {
+            padding: 5px 10px;
+            background-color: #fff8e1;
+            color: #ffc107;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* ========================================
+           SAFETY MONITORING STYLES
+           ======================================== */
+        .safety-section {
+            margin-bottom: 30px;
+        }
+        
+        .section-heading {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        /* Safety records table */
+        .safety-table {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+        }
+        
+        .table-header {
+            display: flex;
+            background-color: #f8f9fa;
+            padding: 15px 20px;
+            font-weight: 600;
+            color: #6c757d;
+            border-bottom: 1px solid #eaedf3;
+        }
+        
+        .table-row {
+            display: flex;
+            padding: 15px 20px;
+            border-bottom: 1px solid #eaedf3;
+            transition: background-color 0.2s;
+        }
+        
+        .table-row:last-child {
+            border-bottom: none;
+        }
+        
+        .table-row:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .table-cell {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Safety table columns */
+        .vehicle-id {
+            flex: 1.2;
+            font-weight: 500;
+        }
+        
+        .test-date {
+            flex: 1;
+        }
+        
+        .status {
+            flex: 0.8;
+        }
+        
+        .actions {
+            flex: 0.8;
+            justify-content: flex-start;
+            gap: 15px;
+        }
+        
+        /* Safety status badges */
+        .status-valid {
+            padding: 6px 15px;
+            background-color: #e8f5e9;
+            color: #4CAF50;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .status-expiring {
+            padding: 6px 15px;
+            background-color: #fff8e1;
+            color: #ffc107;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .status-expired {
+            padding: 6px 15px;
+            background-color: #ffebee;
+            color: #f44336;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        /* Action links */
+        .action-link {
+            font-weight: 500;
+            text-decoration: none;
+        }
+        
+        .action-link.edit {
+            color: #2196F3;
+        }
+        
+        .action-link.delete {
+            color: #f44336;
+        }
+        
+        .action-link:hover {
+            text-decoration: underline;
+        }
+
+        /* ========================================
+           SETTINGS PAGE STYLES
+           ======================================== */
+        .settings-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+        }
+        
+        /* Settings form layout */
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px 30px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .form-group label {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .form-control {
+            padding: 12px 15px;
+            border: 1px solid #dfe3e9;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #2c3e50;
+            transition: border-color 0.2s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+        
+        /* Password field spans two columns */
+        .password-group {
+            grid-column: span 2;
+        }
+        
+        /* Password field with toggle visibility */
+        .password-input-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Form action buttons */
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 30px;
+        }
+        
+        .edit-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+       
+
+        /* ========================================
+           RESPONSIVE DESIGN STYLES
+           ======================================== */
+        @media (max-width: 1200px) {
+            /* Adjust stat cards for large screens */
+            .stat-cards {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+
+        @media (max-width: 992px) {
+            /* Tablet and smaller devices layout */
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .password-group {
+                grid-column: span 1;
+            }
+            
+            /* Stack main content vertically */
+            .main-content {
+                flex-direction: column;
+            }
+            
+            /* Convert sidebar to horizontal navigation */
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #eaedf3;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                padding: 5px;
+            }
+            
+            .nav-item {
+                margin-right: 5px;
+                padding: 10px 15px;
+                border-left: none;
+                border-bottom: 3px solid transparent;
+            }
+            
+            .nav-item.active {
+                border-left: none;
+                border-bottom: 3px solid #4CAF50;
+            }
+        }
+
+        @media (max-width: 768px) {
+            /* Mobile layout adjustments */
+            .header {
+                flex-direction: column;
+                padding: 15px;
+            }
+            
+            .logo-container {
+                margin-bottom: 15px;
+            }
+            
+            .dashboard-title {
+                font-size: 22px;
+            }
+            
+            /* Adjust header items for mobile */
+            .header-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .content {
+                padding: 15px;
+            }
+            
+            /* Stack filter controls vertically */
+            .filter-section {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-container {
+                width: 100%;
+            }
+            
+            /* Make buttons full width on mobile */
+            .filter-btn, .today-btn, .refresh-btn, .export-btn, .add-employee-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            /* Adjust booking details for smaller screens */
+            .booking-details {
+                flex-wrap: wrap;
+            }
+            
+            .detail-column {
+                flex: 0 0 50%;
+                margin-bottom: 10px;
+            }
+            
+            /* Adjust employee table for mobile */
+            .employee-table-header, .employee-item {
+                flex-wrap: wrap;
+                padding: 10px;
+            }
+            
+            .employee-column {
+                flex: 1 0 50%;
+                margin-bottom: 8px;
+            }
+            
+            .name-column {
+                flex: 1 0 100%;
+            }
+            
+            .action-column {
+                flex: 1 0 100%;
+                justify-content: flex-start;
+            }
+            
+            /* Adjust table layouts for mobile */
+            .table-header, .table-row {
+                flex-wrap: wrap;
+            }
+            
+            .table-cell {
+                flex: 1 0 50%;
+                margin-bottom: 8px;
+            }
+            
+            .transaction-id, .vehicle-id {
+                flex: 1 0 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            /* Small mobile layout adjustments */
+            .sidebar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .nav-item {
+                width: 100%;
+                margin-right: 0;
+                border-left: 4px solid transparent;
+                border-bottom: none;
+            }
+            
+            .nav-item.active {
+                border-left: 4px solid #4CAF50;
+                border-bottom: none;
+            }
+            
+            /* Full-width detail columns */
+            .detail-column {
+                flex: 0 0 100%;
+            }
+            
+            /* Single column stat cards */
+            .stat-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            /* Full-width table cells */
+            .table-cell {
+                flex: 1 0 100%;
+            }
+            
+            /* Adjust booking card padding and layout */
+            .booking-card {
+                padding: 15px;
+            }
+            
+            .booking-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .booking-status {
+                margin-top: 10px;
+            }
+            
+            .customer-name {
+                font-size: 20px;
+            }
+        }
+
+        /* ========================================
+           RESPONSIVE TABLE LAYOUT
+           ======================================== */
+        @media (max-width: 768px) {
+            /* Convert table layout to card layout on small screens */
+            .transactions-table .table-header {
+                display: none;
+            }
+            
+            .transactions-table .table-row {
+                margin-bottom: 20px;
+                padding: 15px;
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .transactions-table .table-cell {
+                padding: 8px 0;
+                border-bottom: 1px solid #f0f2f5;
+            }
+            
+            /* Show label before each cell on mobile */
+            .transactions-table .table-cell:before {
+                content: attr(data-label);
+                font-weight: 600;
+                margin-right: 10px;
+                min-width: 120px;
+                display: inline-block;
+            }
+            
+            /* Safety table mobile layout */
+            .safety-table .table-header {
+                display: none;
+            }
+            
+            .safety-table .table-row {
+                margin-bottom: 20px;
+                padding: 15px;
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .safety-table .table-cell {
+                padding: 8px 0;
+                border-bottom: 1px solid #f0f2f5;
+            }
+            
+            .safety-table .table-cell:before {
+                content: attr(data-label);
+                font-weight: 600;
+                margin-right: 10px;
+                min-width: 120px;
+                display: inline-block;
+            }
+        }
+
+        /* ========================================
+           CAMERA FEED RESPONSIVE ADJUSTMENTS
+           ======================================== */
+        @media (max-width: 768px) {
+            .camera-feed {
+                height: 200px;
+            }
+        }
+
+        /* ========================================
+           EMPLOYEE TABLE RESPONSIVE STYLES
+           ======================================== */
+        @media (max-width: 768px) {
+            /* Employee table responsive styles */
+            .employee-table-header {
+                display: none;
+            }
+            
+            .employee-item {
+                margin-bottom: 20px;
+                padding: 15px;
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .employee-column {
+                padding: 8px 0;
+                border-bottom: 1px solid #f0f2f5;
+                width: 100%;
+            }
+            
+            .employee-column:last-child {
+                border-bottom: none;
+            }
+            
+            .employee-column:before {
+                content: attr(data-label);
+                font-weight: 600;
+                margin-right: 10px;
+                min-width: 120px;
+                display: inline-block;
+            }
+            
+            .name-column:before {
+                display: block;
+                margin-bottom: 8px;
+            }
+            
+            .action-column {
+                margin-top: 10px;
+                justify-content: flex-start;
+            }
+        }
+
+        /* ========================================
+           MOBILE MENU TOGGLE STYLES
+           ======================================== */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            margin-left: 15px;
+        }
+
+        @media (max-width: 992px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
+            /* Hide sidebar by default on mobile */
+            .sidebar {
+                display: none;
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #eaedf3;
+                padding: 5px;
+            }
+            
+            /* Show sidebar when active class is added */
+            .sidebar.active {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            /* Stack sidebar items vertically on very small screens */
+            .sidebar.active {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+
+        <!-- ========================================
+             HEADER SECTION
+             ======================================== -->
+        <div class="header">
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="../assets/icons/fulefulx.png" alt="FuelFlux Logo" width="150">
+                </div>
+                <div class="dashboard-title">Dashboard</div>
+                <button class="mobile-menu-toggle">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 18H21V16H3V18ZM3 13H21V11H3V13ZM3 6V8H21V6H3Z" fill="#333333"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="header-right">
+                <div class="notification-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 22C13.1 22 14 21.1 14 20H10C10 21.1 10.9 22 12 22ZM18 16V11C18 7.93 16.36 5.36 13.5 4.68V4C13.5 3.17 12.83 2.5 12 2.5C11.17 2.5 10.5 3.17 10.5 4V4.68C7.63 5.36 6 7.92 6 11V16L4 18V19H20V18L18 16Z" fill="#757575"/>
+                    </svg>
+                </div>
+                <button class="logout-btn">Logout</button>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="nav-item active" data-page="Dashboard">
+                    <span class="nav-icon">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3.33333 10.8333H9.16667V3.33333H3.33333V10.8333ZM3.33333 16.6667H9.16667V12.5H3.33333V16.6667ZM10.8333 16.6667H16.6667V9.16667H10.8333V16.6667ZM10.8333 3.33333V7.5H16.6667V3.33333H10.8333Z" fill="#555555"/>
+                        </svg>
+                    </span>
+                    Dashboard
+                </div>
+                <div class="nav-item" data-page="Booking">
+                    <span class="nav-icon">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15.8333 2.5H15V0.833333H13.3333V2.5H6.66667V0.833333H5V2.5H4.16667C3.24167 2.5 2.50833 3.25 2.50833 4.16667L2.5 17.5C2.5 18.4167 3.24167 19.1667 4.16667 19.1667H15.8333C16.75 19.1667 17.5 18.4167 17.5 17.5V4.16667C17.5 3.25 16.75 2.5 15.8333 2.5ZM15.8333 17.5H4.16667V7.5H15.8333V17.5ZM5.83333 9.16667H10V13.3333H5.83333V9.16667Z" fill="#555555"/>
+                        </svg>
+                    </span>
+                    Booking
+                </div>
+                <div class="nav-item" data-page="Employees">
+                    <span class="nav-icon">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13.3333 9.16667C14.7167 9.16667 15.8333 8.05 15.8333 6.66667C15.8333 5.28333 14.7167 4.16667 13.3333 4.16667C11.95 4.16667 10.8333 5.28333 10.8333 6.66667C10.8333 8.05 11.95 9.16667 13.3333 9.16667ZM6.66667 9.16667C8.05 9.16667 9.16667 8.05 9.16667 6.66667C9.16667 5.28333 8.05 4.16667 6.66667 4.16667C5.28333 4.16667 4.16667 5.28333 4.16667 6.66667C4.16667 8.05 5.28333 9.16667 6.66667 9.16667ZM6.66667 10.8333C4.73333 10.8333 0.833333 11.8 0.833333 13.75V15.8333H12.5V13.75C12.5 11.8 8.6 10.8333 6.66667 10.8333ZM13.3333 10.8333C13.0583 10.8333 12.7417 10.85 12.4083 10.8833C13.4 11.5667 14.1667 12.5167 14.1667 13.75V15.8333H19.1667V13.75C19.1667 11.8 15.2667 10.8333 13.3333 10.8333Z" fill="#555555"/>
+                        </svg>
+                    </span>
+                    Employees
+                </div>
+                <div class="nav-item" data-page="Sales Analytics">
+                    <span class="nav-icon">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17.5 16.6667V7.5H13.3333V16.6667H17.5ZM12.0833 16.6667V3.33333H7.91667V16.6667H12.0833ZM6.66667 16.6667V10.8333H2.5V16.6667H6.66667Z" fill="#555555"/>
+                        </svg>
+                    </span>
+                    Sales Analytics
+                </div>
+                <div class="nav-item" data-page="Safety Monitoring">
+                    <span class="nav-icon">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.99984 1.66666L2.4165 4.99999V9.16666C2.4165 13.3667 5.6415 17.3 9.99984 18.3333C14.3582 17.3 17.5832 13.3667 17.5832 9.16666V4.99999L9.99984 1.66666ZM9.99984 9.99999H15.8332C15.3998 12.9833 13.0998 15.6333 9.99984 16.5333V9.99999H4.1665V6.24999L9.99984 3.59999V9.99999Z" fill="#555555"/>
+                        </svg>
+                    </span>
+                    Safety Monitoring
+                </div>
+                
+                <div class="nav-item" data-page="Setting">
+                    <span class="nav-icon">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16.7917 10.8333C16.75 10.5 16.6667 10.1833 16.5333 9.88333L17.65 8.76667C17.7667 8.65 17.8 8.45 17.7167 8.3L16.3833 5.7C16.3 5.54167 16.1083 5.48333 15.95 5.53333L14.5333 6.06667C14.15 5.78333 13.7333 5.55 13.2833 5.38333L13.0833 3.88333C13.0667 3.71667 12.925 3.58333 12.75 3.58333H9.75C9.58333 3.58333 9.44167 3.71667 9.425 3.88333L9.225 5.38333C8.775 5.55 8.35833 5.78333 7.975 6.06667L6.55833 5.53333C6.4 5.48333 6.20833 5.54167 6.125 5.7L4.79167 8.3C4.70833 8.45 4.74167 8.65 4.85833 8.76667L5.975 9.88333C5.84167 10.1833 5.75833 10.5083 5.71667 10.8333H3.33333V16.6667H16.6667V10.8333H16.7917ZM10 14.1667C8.80833 14.1667 7.83333 13.1917 7.83333 12C7.83333 10.8083 8.80833 9.83333 10 9.83333C11.1917 9.83333 12.1667 10.8083 12.1667 12C12.1667 13.1917 11.1917 14.1667 10 14.1667Z" fill="#555555"/>
+                        </svg>
+                    </span>
+                    Setting
+                </div>
+            </div>
+            <div class="content">
+                <div id="dashboard-content">
+                    <div class="stat-cards">
+                        <div class="stat-card">
+                            <div class="stat-title">Today's Bookings</div>
+                            <div class="stat-value" id="bookings-count">24</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">Fuel Sales Today</div>
+                            <div class="stat-value" id="fuel-sales">₹28,450</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">Booking Ratio</div>
+                            <div class="stat-value" id="booking-ratio">3/5</div>
+                        </div>
+                    </div>
+                    <div class="crowd-status">
+                        <div class="status-title">Crowd Status (Live)</div>
+                        <div class="status-value" id="crowd-status">Moderate</div>
+                    </div>
+                    <div class="camera-section">
+                        <div class="section-header">
+                            <div class="section-title">Live Camera Feed/AI Alert</div>
+                            <a href="#" class="view-all">
+                                View All <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 3.75L7.9425 4.8075L12.1275 9L7.9425 13.1925L9 14.25L14.25 9L9 3.75Z" fill="#4CAF50"/>
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="camera-feed">
+                            <div class="live-indicator">
+                                <div class="live-dot"></div>
+                                LIVE
+                            </div>
+                            <div class="camera-placeholder">
+                                <svg width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M17 10.5V7C17 6.45 16.55 6 16 6H4C3.45 6 3 6.45 3 7V17C3 17.55 3.45 18 4 18H16C16.55 18 17 17.55 17 17V13.5L21 17.5V6.5L17 10.5Z" fill="#ffffff" fill-opacity="0.5"/>
+                                </svg>
+                                <p>Camera feed unavailable</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Booking Content -->
+                <div id="booking-content" class="section-content">
+                    <div class="filter-section">
+                        <div class="search-container">
+                            <span class="search-icon">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M14.2939 12.5786H13.3905L13.0703 12.2699C14.191 10.9663 14.8656 9.27387 14.8656 7.43282C14.8656 3.32762 11.538 0 7.43282 0C3.32762 0 0 3.32762 0 7.43282C0 11.538 3.32762 14.8656 7.43282 14.8656C9.27387 14.8656 10.9663 14.191 12.2699 13.0703L12.5786 13.3905V14.2939L18.2962 20L20 18.2962L14.2939 12.5786ZM7.43282 12.5786C4.58548 12.5786 2.28702 10.2802 2.28702 7.43282C2.28702 4.58548 4.58548 2.28702 7.43282 2.28702C10.2802 2.28702 12.5786 4.58548 12.5786 7.43282C12.5786 10.2802 10.2802 12.5786 7.43282 12.5786Z" fill="#6C757D"/>
+                                </svg>
+                            </span>
+                            <input type="text" class="search-input" placeholder="Search bookings...">
+                        </div>
+                        <button class="filter-btn">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8.33333 15H11.6667V13.3333H8.33333V15ZM2.5 5V6.66667H17.5V5H2.5ZM5 10.8333H15V9.16667H5V10.8333Z" fill="#333333"/>
+                            </svg>
+                            Filter
+                        </button>
+                        <button class="today-btn">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15.8333 2.5H15V0.833333H13.3333V2.5H6.66667V0.833333H5V2.5H4.16667C3.24167 2.5 2.50833 3.25 2.50833 4.16667L2.5 17.5C2.5 18.4167 3.24167 19.1667 4.16667 19.1667H15.8333C16.75 19.1667 17.5 18.4167 17.5 17.5V4.16667C17.5 3.25 16.75 2.5 15.8333 2.5ZM15.8333 17.5H4.16667V7.5H15.8333V17.5ZM5.83333 9.16667H10V13.3333H5.83333V9.16667Z" fill="#333333"/>
+                            </svg>
+                            Today
+                        </button>
+                        <button class="refresh-btn">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 3.33333V0L5.83333 4.16667L10 8.33333V5C12.7583 5 15 7.24167 15 10C15 12.7583 12.7583 15 10 15C7.24167 15 5 12.7583 5 10H3.33333C3.33333 13.6833 6.31667 16.6667 10 16.6667C13.6833 16.6667 16.6667 13.6833 16.6667 10C16.6667 6.31667 13.6833 3.33333 10 3.33333Z" fill="#333333"/>
+                            </svg>
+                            Refresh
+                        </button>
+                    </div>
+                    
+                    <div class="booking-card">
+                        <div class="booking-header">
+                            <span class="booking-id">#BK00123</span>
+                            <span class="booking-status status-confirmed">Confirmed</span>
+                        </div>
+                        <h3 class="customer-name">John Doe</h3>
+                        <div class="pump-location">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 1.5C6.0975 1.5 3.75 3.8475 3.75 6.75C3.75 10.6875 9 16.5 9 16.5C9 16.5 14.25 10.6875 14.25 6.75C14.25 3.8475 11.9025 1.5 9 1.5ZM9 8.625C8.505 8.625 8.03099 8.43001 7.68176 8.08176C7.33252 7.73252 7.13752 7.25851 7.13752 6.76351C7.13752 6.2685 7.33252 5.7945 7.68176 5.44525C8.03099 5.09601 8.505 4.90101 9 4.90101C9.495 4.90101 9.96901 5.09601 10.3182 5.44525C10.6675 5.7945 10.8625 6.2685 10.8625 6.76351C10.8625 7.25851 10.6675 7.73252 10.3182 8.08176C9.96901 8.43001 9.495 8.625 9 8.625Z" fill="#6C757D"/>
+                            </svg>
+                            Pump Station #3, Sector 18
+                        </div>
+                        <div class="booking-details">
+                            <div class="detail-column">
+                                <div class="detail-label">Booking Date</div>
+                                <div class="detail-value">May 15, 2025</div>
+                            </div>
+                            <div class="detail-column">
+                                <div class="detail-label">Booking Time</div>
+                                <div class="detail-value">10:30 AM</div>
+                            </div>
+                            <div class="detail-column">
+                                <div class="detail-label">Fuel Type</div>
+                                <div class="detail-value">Petrol</div>
+                            </div>
+                            <div class="detail-column">
+                                <div class="detail-label">Amount</div>
+                                <div class="detail-value">₹1,500</div>
+                            </div>
+                        </div>
+                        <a href="#" class="view-details">
+                            View Details
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 3.75L7.9425 4.8075L12.1275 9L7.9425 13.1925L9 14.25L14.25 9L9 3.75Z" fill="#4A6FDC"/>
+                            </svg>
+                        </a>
+                    </div>
+                    
+                    <div class="booking-card">
+                        <div class="booking-header">
+                            <span class="booking-id">#BK00124</span>
+                            <span class="booking-status status-pending">Pending</span>
+                        </div>
+                        <h3 class="customer-name">Jane Smith</h3>
+                        <div class="pump-location">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 1.5C6.0975 1.5 3.75 3.8475 3.75 6.75C3.75 10.6875 9 16.5 9 16.5C9 16.5 14.25 10.6875 14.25 6.75C14.25 3.8475 11.9025 1.5 9 1.5ZM9 8.625C8.505 8.625 8.03099 8.43001 7.68176 8.08176C7.33252 7.73252 7.13752 7.25851 7.13752 6.76351C7.13752 6.2685 7.33252 5.7945 7.68176 5.44525C8.03099 5.09601 8.505 4.90101 9 4.90101C9.495 4.90101 9.96901 5.09601 10.3182 5.44525C10.6675 5.7945 10.8625 6.2685 10.8625 6.76351C10.8625 7.25851 10.6675 7.73252 10.3182 8.08176C9.96901 8.43001 9.495 8.625 9 8.625Z" fill="#6C757D"/>
+                            </svg>
+                            Pump Station #1, Sector 22
+                        </div>
+                        <div class="booking-details">
+                            <div class="detail-column">
+                                <div class="detail-label">Booking Date</div>
+                                <div class="detail-value">May 15, 2025</div>
+                            </div>
+                            <div class="detail-column">
+                                <div class="detail-label">Booking Time</div>
+                                <div class="detail-value">2:15 PM</div>
+                            </div>
+                            <div class="detail-column">
+                                <div class="detail-label">Fuel Type</div>
+                                <div class="detail-value">Diesel</div>
+                            </div>
+                            <div class="detail-column">
+                                <div class="detail-label">Amount</div>
+                                <div class="detail-value">₹2,000</div>
+                            </div>
+                        </div>
+                        <a href="#" class="view-details">
+                            View Details
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 3.75L7.9425 4.8075L12.1275 9L7.9425 13.1925L9 14.25L14.25 9L9 3.75Z" fill="#4A6FDC"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Other section contents would go here -->
+                <div id="employees-content" class="section-content">
+                    <!-- Employee management interface -->
+                    <div class="filter-section">
+                        <div class="search-container">
+                            <span class="search-icon">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M14.2939 12.5786H13.3905L13.0703 12.2699C14.191 10.9663 14.8656 9.27387 14.8656 7.43282C14.8656 3.32762 11.538 0 7.43282 0C3.32762 0 0 3.32762 0 7.43282C0 11.538 3.32762 14.8656 7.43282 14.8656C9.27387 14.8656 10.9663 14.191 12.2699 13.0703L12.5786 13.3905V14.2939L18.2962 20L20 18.2962L14.2939 12.5786ZM7.43282 12.5786C4.58548 12.5786 2.28702 10.2802 2.28702 7.43282C2.28702 4.58548 4.58548 2.28702 7.43282 2.28702C10.2802 2.28702 12.5786 4.58548 12.5786 7.43282C12.5786 10.2802 10.2802 12.5786 7.43282 12.5786Z" fill="#6C757D"/>
+                                </svg>
+                            </span>
+                            <input type="text" class="search-input" placeholder="Search employees...">
+                        </div>
+                        <button class="export-btn">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15.8333 10.8333H12.5V16.6667H7.5V10.8333H4.16667L10 5L15.8333 10.8333ZM4.16667 18.3333H15.8333V20H4.16667V18.3333Z" fill="#333333"/>
+                            </svg>
+                            Export
+                        </button>
+                        <button class="add-employee-btn">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15.8333 10.8333H10.8333V15.8333H9.16667V10.8333H4.16667V9.16667H9.16667V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="#FFFFFF"/>
+                            </svg>
+                            Add Employee
+                        </button>
+                    </div>
+
+                    <!-- Employee Table -->
+                    <div class="employee-table">
+                        <!-- Table Header -->
+                        <div class="employee-table-header">
+                            <div class="employee-column name-column" data-label="NAME">NAME</div>
+                            <div class="employee-column position-column" data-label="POSITION">POSITION</div>
+                            <div class="employee-column status-column" data-label="STATUS">STATUS</div>
+                            <div class="employee-column contact-column" data-label="CONTACT">CONTACT</div>
+                            <div class="employee-column action-column" data-label="ACTION">ACTION</div>
+                        </div>
+                        
+                        <!-- Employee Item 1 -->
+                        <div class="employee-item">
+                            <div class="employee-column name-column" data-label="NAME">
+                                <div class="employee-avatar">J</div>
+                                <div class="employee-name">John Smith</div>
+                            </div>
+                            <div class="employee-column position-column" data-label="POSITION">Pump Attendant</div>
+                            <div class="employee-column status-column" data-label="STATUS">
+                                <span class="status-badge status-active">Active</span>
+                            </div>
+                            <div class="employee-column contact-column" data-label="CONTACT">+91 9876543210</div>
+                            <div class="employee-column action-column" data-label="ACTION">
+                                <button class="action-btn edit-btn">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M2.5 14.375V17.5H5.625L14.8417 8.28333L11.7167 5.15833L2.5 14.375ZM17.2583 5.86667C17.5833 5.54167 17.5833 5.01667 17.2583 4.69167L15.3083 2.74167C14.9833 2.41667 14.4583 2.41667 14.1333 2.74167L12.6083 4.26667L15.7333 7.39167L17.2583 5.86667Z" fill="#4A6FDC"/>
+                                    </svg>
+                                </button>
+                                <button class="action-btn delete-btn">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M5 15.8333C5 16.75 5.75 17.5 6.66667 17.5H13.3333C14.25 17.5 15 16.75 15 15.8333V5.83333H5V15.8333ZM16.6667 3.33333H13.3333L12.5 2.5H7.5L6.66667 3.33333H3.33333V5H16.6667V3.33333Z" fill="#E53935"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Employee Item 2 -->
+                        <div class="employee-item">
+                            <div class="employee-column name-column" data-label="NAME">
+                                <div class="employee-avatar">P</div>
+                                <div class="employee-name">Priya Sharma</div>
+                            </div>
+                            <div class="employee-column position-column" data-label="POSITION">Station Manager</div>
+                            <div class="employee-column status-column" data-label="STATUS">
+                                <span class="status-badge status-leave">On leave</span>
+                            </div>
+                            <div class="employee-column contact-column" data-label="CONTACT">+91 9866321210</div>
+                            <div class="employee-column action-column" data-label="ACTION">
+                                <button class="action-btn edit-btn">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M2.5 14.375V17.5H5.625L14.8417 8.28333L11.7167 5.15833L2.5 14.375ZM17.2583 5.86667C17.5833 5.54167 17.5833 5.01667 17.2583 4.69167L15.3083 2.74167C14.9833 2.41667 14.4583 2.41667 14.1333 2.74167L12.6083 4.26667L15.7333 7.39167L17.2583 5.86667Z" fill="#4A6FDC"/>
+                                    </svg>
+                                </button>
+                                <button class="action-btn delete-btn">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M5 15.8333C5 16.75 5.75 17.5 6.66667 17.5H13.3333C14.25 17.5 15 16.75 15 15.8333V5.83333H5V15.8333ZM16.6667 3.33333H13.3333L12.5 2.5H7.5L6.66667 3.33333H3.33333V5H16.6667V3.33333Z" fill="#E53935"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Employee Item 3 -->
+                        <div class="employee-item">
+                            <div class="employee-column name-column" data-label="NAME">
+                                <div class="employee-avatar">R</div>
+                                <div class="employee-name">Raj Kumar</div>
+                            </div>
+                            <div class="employee-column position-column" data-label="POSITION">Cashier</div>
+                            <div class="employee-column status-column" data-label="STATUS">
+                                <span class="status-badge status-active">Active</span>
+                            </div>
+                            <div class="employee-column contact-column" data-label="CONTACT">+91 9876543210</div>
+                            <div class="employee-column action-column" data-label="ACTION">
+                                <button class="action-btn edit-btn">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M2.5 14.375V17.5H5.625L14.8417 8.28333L11.7167 5.15833L2.5 14.375ZM17.2583 5.86667C17.5833 5.54167 17.5833 5.01667 17.2583 4.69167L15.3083 2.74167C14.9833 2.41667 14.4583 2.41667 14.1333 2.74167L12.6083 4.26667L15.7333 7.39167L17.2583 5.86667Z" fill="#4A6FDC"/>
+                                    </svg>
+                                </button>
+                                <button class="action-btn delete-btn">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M5 15.8333C5 16.75 5.75 17.5 6.66667 17.5H13.3333C14.25 17.5 15 16.75 15 15.8333V5.83333H5V15.8333ZM16.6667 3.33333H13.3333L12.5 2.5H7.5L6.66667 3.33333H3.33333V5H16.6667V3.33333Z" fill="#E53935"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="sales-analytics-content" class="section-content">
+                    <!-- Sales analytics interface -->
+                    <!-- Total Sales Card -->
+                    <div class="sales-card">
+                        <div class="sales-card-header">
+                            <div class="sales-title">Total Sales</div>
+                            <div class="time-selector">
+                                <select class="time-dropdown">
+                                    <option>This Month</option>
+                                    <option>Last Month</option>
+                                    <option>Last 3 Months</option>
+                                    <option>Last 6 Months</option>
+                                    <option>This Year</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="sales-value">₹4,67,890</div>
+                        <div class="sales-change positive">12.4% vs lastmonth</div>
+                        
+                        <!-- Replace the static SVG chart with a canvas for Chart.js -->
+                        <div class="sales-chart">
+                            <canvas id="salesChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Transactions -->
+                    <div class="transactions-section">
+                        <div class="transactions-header">
+                            <div class="section-title">Recent Transaction</div>
+                            <div class="transaction-actions">
+                                <button class="filter-btn" id="sales-filter-btn">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12.9167 11.6667H12.2583L12.025 11.4417C12.8417 10.4917 13.3333 9.25833 13.3333 7.91667C13.3333 4.925 10.9083 2.5 7.91667 2.5C4.925 2.5 2.5 4.925 2.5 7.91667C2.5 10.9083 4.925 13.3333 7.91667 13.3333C9.25833 13.3333 10.4917 12.8417 11.4417 12.025L11.6667 12.2583V12.9167L15.8333 17.075L17.075 15.8333L12.9167 11.6667ZM7.91667 11.6667C5.84167 11.6667 4.16667 9.99167 4.16667 7.91667C4.16667 5.84167 5.84167 4.16667 7.91667 4.16667C9.99167 4.16667 11.6667 5.84167 11.6667 7.91667C11.6667 9.99167 9.99167 11.6667 7.91667 11.6667Z" fill="#6c757d"/>
+                                    </svg>
+                                    Filter
+                                </button>
+                                <button class="export-btn">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M15.8333 10.8333H12.5V16.6667H7.5V10.8333H4.16667L10 5L15.8333 10.8333ZM4.16667 18.3333H15.8333V20H4.16667V18.3333Z" fill="#333333"/>
+                                    </svg>
+                                    Export
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Transactions Table -->
+                        <div class="transactions-table">
+                            <div class="table-header">
+                                <div class="table-cell transaction-id" data-label="TRANSACTION ID">TRANSACTION ID</div>
+                                <div class="table-cell date" data-label="DATE">DATE</div>
+                                <div class="table-cell fuel-type" data-label="FUEL TYPE">FUEL TYPE</div>
+                                <div class="table-cell volume" data-label="VOLUME">VOLUME</div>
+                                <div class="table-cell amount" data-label="AMOUNT">AMOUNT</div>
+                                <div class="table-cell payment-method" data-label="PAYMENT METHOD">PAYMENT METHOD</div>
+                                <div class="table-cell status" data-label="STATUS">STATUS</div>
+                            </div>
+                            
+                            <!-- Transaction Row 1 -->
+                            <div class="table-row">
+                                <div class="table-cell transaction-id" data-label="TRANSACTION ID">#TRX-98756</div>
+                                <div class="table-cell date" data-label="DATE">13,MAY,2025</div>
+                                <div class="table-cell fuel-type" data-label="FUEL TYPE">PETROL</div>
+                                <div class="table-cell volume" data-label="VOLUME">12.5 L</div>
+                                <div class="table-cell amount" data-label="AMOUNT">₹1,187.50</div>
+                                <div class="table-cell payment-method" data-label="PAYMENT METHOD">CREDIT CARD</div>
+                                <div class="table-cell status" data-label="STATUS"><span class="status-completed">COMPLETED</span></div>
+                            </div>
+                            
+                            <!-- Transaction Row 2 -->
+                            <div class="table-row">
+                                <div class="table-cell transaction-id" data-label="TRANSACTION ID">#TRX-98755</div>
+                                <div class="table-cell date" data-label="DATE">13,MAY,2025</div>
+                                <div class="table-cell fuel-type" data-label="FUEL TYPE">DIESEL</div>
+                                <div class="table-cell volume" data-label="VOLUME">18.2 L</div>
+                                <div class="table-cell amount" data-label="AMOUNT">₹1,601.60</div>
+                                <div class="table-cell payment-method" data-label="PAYMENT METHOD">UPI</div>
+                                <div class="table-cell status" data-label="STATUS"><span class="status-completed">COMPLETED</span></div>
+                            </div>
+                            
+                            <!-- Transaction Row 3 -->
+                            <div class="table-row">
+                                <div class="table-cell transaction-id" data-label="TRANSACTION ID">#TRX-98754</div>
+                                <div class="table-cell date" data-label="DATE">12,MAY,2025</div>
+                                <div class="table-cell fuel-type" data-label="FUEL TYPE">PETROL</div>
+                                <div class="table-cell volume" data-label="VOLUME">5.0 L</div>
+                                <div class="table-cell amount" data-label="AMOUNT">₹475.00</div>
+                                <div class="table-cell payment-method" data-label="PAYMENT METHOD">CASH</div>
+                                <div class="table-cell status" data-label="STATUS"><span class="status-completed">COMPLETED</span></div>
+                            </div>
+                            
+                            <!-- Transaction Row 4 -->
+                            <div class="table-row">
+                                <div class="table-cell transaction-id" data-label="TRANSACTION ID">#TRX-98753</div>
+                                <div class="table-cell date" data-label="DATE">12,MAY,2025</div>
+                                <div class="table-cell fuel-type" data-label="FUEL TYPE">DIESEL</div>
+                                <div class="table-cell volume" data-label="VOLUME">22.7 L</div>
+                                <div class="table-cell amount" data-label="AMOUNT">₹1,997.60</div>
+                                <div class="table-cell payment-method" data-label="PAYMENT METHOD">CREDIT CARD</div>
+                                <div class="table-cell status" data-label="STATUS"><span class="status-completed">COMPLETED</span></div>
+                            </div>
+                            
+                            <!-- Transaction Row 5 - CNG Transaction -->
+                            <div class="table-row">
+                                <div class="table-cell transaction-id" data-label="TRANSACTION ID">#TRX-98752</div>
+                                <div class="table-cell date" data-label="DATE">12,MAY,2025</div>
+                                <div class="table-cell fuel-type" data-label="FUEL TYPE">CNG</div>
+                                <div class="table-cell volume" data-label="VOLUME">8.5 kg</div>
+                                <div class="table-cell amount" data-label="AMOUNT">₹850.00</div>
+                                <div class="table-cell payment-method" data-label="PAYMENT METHOD">UPI</div>
+                                <div class="table-cell status" data-label="STATUS"><span class="status-completed">COMPLETED</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="safety-monitoring-content" class="section-content">
+                    <!-- Safety monitoring interface -->
+                    <div class="safety-section">
+                        <h2 class="section-heading">Hydrotesting Records - Petrol/Diesel</h2>
+                        <div class="safety-table">
+                            <div class="table-header">
+                                <div class="table-cell vehicle-id" data-label="VEHICLE ID">VEHICLE ID</div>
+                                <div class="table-cell test-date" data-label="LAST TEST DATE">LAST TEST DATE</div>
+                                <div class="table-cell test-date" data-label="NEXT TEST DATE">NEXT TEST DATE</div>
+                                <div class="table-cell status" data-label="STATUS">STATUS</div>
+                                <div class="table-cell actions" data-label="ACTIONS">ACTIONS</div>
+                            </div>
+                            
+                            <!-- Hydrotesting Record Row 1 -->
+                            <div class="table-row">
+                                <div class="table-cell vehicle-id" data-label="VEHICLE ID">GJ-19-BA-4772</div>
+                                <div class="table-cell test-date" data-label="LAST TEST DATE">2025-04-10</div>
+                                <div class="table-cell test-date" data-label="NEXT TEST DATE">2025-10-10</div>
+                                <div class="table-cell status" data-label="STATUS"><span class="status-valid">Valid</span></div>
+                                <div class="table-cell actions" data-label="ACTIONS">
+                                    <a href="#" class="action-link edit">Edit</a>
+                                    <a href="#" class="action-link delete">Delete</a>
+                                </div>
+                            </div>
+                            
+                            <!-- Hydrotesting Record Row 2 -->
+                            <div class="table-row">
+                                <div class="table-cell vehicle-id" data-label="VEHICLE ID">GJ-19-BA-3215</div>
+                                <div class="table-cell test-date" data-label="LAST TEST DATE">2025-03-15</div>
+                                <div class="table-cell test-date" data-label="NEXT TEST DATE">2025-09-15</div>
+                                <div class="table-cell status" data-label="STATUS"><span class="status-valid">Valid</span></div>
+                                <div class="table-cell actions" data-label="ACTIONS">
+                                    <a href="#" class="action-link edit">Edit</a>
+                                    <a href="#" class="action-link delete">Delete</a>
+                                </div>
+                            </div>
+                            
+                            <!-- Hydrotesting Record Row 3 -->
+                            <div class="table-row">
+                                <div class="table-cell vehicle-id" data-label="VEHICLE ID">GJ-19-BA-9821</div>
+                                <div class="table-cell test-date" data-label="LAST TEST DATE">2024-12-05</div>
+                                <div class="table-cell test-date" data-label="NEXT TEST DATE">2025-06-05</div>
+                                <div class="table-cell status" data-label="STATUS"><span class="status-expiring">Expiring Soon</span></div>
+                                <div class="table-cell actions" data-label="ACTIONS">
+                                    <a href="#" class="action-link edit">Edit</a>
+                                    <a href="#" class="action-link delete">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="safety-section">
+                        <h2 class="section-heading">CNG Car Section</h2>
+                        <div class="safety-table">
+                            <!-- CNG Car Section Table Header -->
+                            <div class="table-header">
+                                <div class="table-cell vehicle-id" data-label="VEHICLE ID">VEHICLE ID</div>
+                                <div class="table-cell test-date" data-label="LAST TEST DATE">LAST TEST DATE</div>
+                                <div class="table-cell test-date" data-label="NEXT TEST DATE">NEXT TEST DATE</div>
+                                <div class="table-cell status" data-label="STATUS">STATUS</div>
+                                <div class="table-cell actions" data-label="ACTIONS">ACTIONS</div>
+                            </div>
+                            
+                            <!-- CNG Car Row 1 -->
+                            <div class="table-row">
+                                <div class="table-cell vehicle-id" data-label="VEHICLE ID">GJ-19-BA-4772</div>
+                                <div class="table-cell test-date" data-label="LAST TEST DATE">2025-04-10</div>
+                                <div class="table-cell test-date" data-label="NEXT TEST DATE">2025-10-10</div>
+                                <div class="table-cell status" data-label="STATUS"><span class="status-valid">Valid</span></div>
+                                <div class="table-cell actions" data-label="ACTIONS">
+                                    <a href="#" class="action-link edit">Edit</a>
+                                    <a href="#" class="action-link delete">Delete</a>
+                                </div>
+                            </div>
+                            
+                            <!-- CNG Car Row 2 -->
+                            <div class="table-row">
+                                <div class="table-cell vehicle-id" data-label="VEHICLE ID">GJ-19-BA-5463</div>
+                                <div class="table-cell test-date" data-label="LAST TEST DATE">2025-01-20</div>
+                                <div class="table-cell test-date" data-label="NEXT TEST DATE">2025-07-20</div>
+                                <div class="table-cell status" data-label="STATUS"><span class="status-valid">Valid</span></div>
+                                <div class="table-cell actions" data-label="ACTIONS">
+                                    <a href="#" class="action-link edit">Edit</a>
+                                    <a href="#" class="action-link delete">Delete</a>
+                                </div>
+                            </div>
+                            
+                            <!-- CNG Car Row 3 -->
+                            <div class="table-row">
+                                <div class="table-cell vehicle-id" data-label="VEHICLE ID">GJ-19-BA-7891</div>
+                                <div class="table-cell test-date" data-label="LAST TEST DATE">2024-11-30</div>
+                                <div class="table-cell test-date" data-label="NEXT TEST DATE">2025-05-30</div>
+                                <div class="table-cell status" data-label="STATUS"><span class="status-expired">Expired</span></div>
+                                <div class="table-cell actions" data-label="ACTIONS">
+                                    <a href="#" class="action-link edit">Edit</a>
+                                    <a href="#" class="action-link delete">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="setting-content" class="section-content">
+                    <!-- Settings interface -->
+                    <div class="settings-container">
+                        <form class="settings-form">
+                            <div class="settings-grid">
+                                <div class="form-group">
+                                    <label for="station-name">Station Name</label>
+                                    <input type="text" id="station-name" class="form-control" value="Mahila petrol pump" readonly>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="station-id">Station ID</label>
+                                    <input type="text" id="station-id" class="form-control" value="ABC-XYZ-RC" readonly>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="station-mobile">Station Mobile No</label>
+                                    <input type="text" id="station-mobile" class="form-control" value="+91 987654321" readonly>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="station-email">Station Email ID</label>
+                                    <input type="email" id="station-email" class="form-control" value="mahila@gmail.com" readonly>
+                                </div>
+                                
+                                <div class="form-group password-group">
+                                    <label for="station-password">Station Password</label>
+                                    <div class="password-input-container">
+                                        <input type="password" id="station-password" class="form-control" value="password123" readonly>
+                                        <button type="button" class="password-toggle">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M12 4.5C7 4.5 2.73 7.61 1 12C2.73 16.39 7 19.5 12 19.5C17 19.5 21.27 16.39 23 12C21.27 7.61 17 4.5 12 4.5ZM12 17C9.24 17 7 14.76 7 12C7 9.24 9.24 7 12 7C14.76 7 17 9.24 17 12C17 14.76 14.76 17 12 17ZM12 9C10.34 9 9 10.34 9 12C9 13.66 10.34 15 12 15C13.66 15 15 13.66 15 12C15 10.34 13.66 9 12 9Z" fill="#333333"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="edit-btn">
+                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M2.25 12.9375V15.75H5.0625L13.3575 7.455L10.545 4.6425L2.25 12.9375ZM15.5325 5.28C15.825 4.9875 15.825 4.515 15.5325 4.2225L13.7775 2.4675C13.485 2.175 13.0125 2.175 12.72 2.4675L11.3475 3.84L14.16 6.6525L15.5325 5.28Z" fill="white"/>
+                                    </svg>
+                                    Edit
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Add comprehensive functionality script at the end of the file -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // =====================================
+                // Global Variables and State Management
+                // =====================================
+                let currentPage = 'Dashboard';
+                let editMode = false;
+                
+                // Sample data for simulation
+                const sampleData = {
+                    bookings: [
+                        { id: 'BK00123', customer: 'John Doe', location: 'Pump Station #3, Sector 18', date: 'May 15, 2025', time: '10:30 AM', fuel: 'Petrol', amount: 1500, status: 'Confirmed' },
+                        { id: 'BK00124', customer: 'Jane Smith', location: 'Pump Station #1, Sector 22', date: 'May 15, 2025', time: '2:15 PM', fuel: 'Diesel', amount: 2000, status: 'Pending' },
+                        { id: 'BK00125', customer: 'Rahul Sharma', location: 'Pump Station #2, Sector 15', date: 'May 16, 2025', time: '11:45 AM', fuel: 'Petrol', amount: 1200, status: 'Confirmed' }
+                    ],
+                    employees: [
+                        { id: 'EMP001', name: 'John Smith', position: 'Pump Attendant', status: 'Active', contact: '+91 9876543210' },
+                        { id: 'EMP002', name: 'Priya Sharma', position: 'Station Manager', status: 'On leave', contact: '+91 9866321210' },
+                        { id: 'EMP003', name: 'Raj Kumar', position: 'Cashier', status: 'Active', contact: '+91 9876543210' }
+                    ],
+                    safetyRecords: {
+                        hydrotesting: [
+                            { id: 'GJ-19-BA-4772', lastTest: '2025-04-10', nextTest: '2025-10-10', status: 'Valid' },
+                            { id: 'GJ-19-BA-3215', lastTest: '2025-03-15', nextTest: '2025-09-15', status: 'Valid' },
+                            { id: 'GJ-19-BA-9821', lastTest: '2024-12-05', nextTest: '2025-06-05', status: 'Expiring Soon' }
+                        ],
+                        cngCars: [
+                            { id: 'GJ-19-BA-4772', lastTest: '2025-04-10', nextTest: '2025-10-10', status: 'Valid' },
+                            { id: 'GJ-19-BA-5463', lastTest: '2025-01-20', nextTest: '2025-07-20', status: 'Valid' },
+                            { id: 'GJ-19-BA-7891', lastTest: '2024-11-30', nextTest: '2025-05-30', status: 'Expired' }
+                        ]
+                    },
+                    stationInfo: {
+                        name: 'Mahila petrol pump',
+                        id: 'ABC-XYZ-RC',
+                        mobile: '+91 987654321',
+                        email: 'mahila@gmail.com',
+                        password: 'password123'
+                    }
+                };
+                
+                // =====================================
+                // Navigation and Page Switching
+                // =====================================
+                function initNavigation() {
+                    const navItems = document.querySelectorAll('.nav-item');
+                    
+                    navItems.forEach(item => {
+                        item.addEventListener('click', function() {
+                            // Update current page
+                            currentPage = this.getAttribute('data-page');
+                            
+                            // Update navigation state - remove active class from all and add to current
+                            navItems.forEach(nav => {
+                                nav.classList.remove('active');
+                                const svg = nav.querySelector('svg path');
+                                if (svg) {
+                                    svg.setAttribute('fill', '#555555');
+                                }
+                            });
+                            
+                            this.classList.add('active');
+                            const activeSvg = this.querySelector('svg path');
+                            if (activeSvg) {
+                                activeSvg.setAttribute('fill', '#4CAF50');
+                            }
+                            
+                            // Update page title in header
+                            const dashboardTitle = document.querySelector('.dashboard-title');
+                            if (dashboardTitle) {
+                                dashboardTitle.textContent = currentPage;
+                            }
+                            
+                            // Hide all content sections
+                            const contentSections = document.querySelectorAll('.content > div');
+                            contentSections.forEach(section => {
+                                if (section) {
+                                    section.style.display = 'none';
+                                }
+                            });
+                            
+                            // Show the corresponding content section
+                            const contentId = currentPage.toLowerCase().replace(/\s+/g, '-') + '-content';
+                            const contentSection = document.getElementById(contentId);
+                            if (contentSection) {
+                                contentSection.style.display = 'block';
+                                
+                                // Initialize specific page content if needed
+                                switch(currentPage) {
+                                    case 'Dashboard':
+                                        updateDashboardStats();
+                                        break;
+                                    case 'Sales Analytics':
+                                        initSalesChart();
+                                        break;
+                                    case 'Employees':
+                                        // Nothing special needed for now
+                                        break;
+                                    case 'Booking':
+                                        // Nothing special needed for now
+                                        break;
+                                    case 'Safety Monitoring':
+                                        // Nothing special needed for now
+                                        break;
+                                    case 'Setting':
+                                        // Nothing special needed for now
+                                        break;
+                                }
+                            }
+                        });
+                    });
+                }
+                
+                // =====================================
+                // Dashboard Functionality
+                // =====================================
+                function updateDashboardStats() {
+                    // Update booking count with random number between 20-30
+                    const bookingsCount = Math.floor(Math.random() * 11) + 20;
+                    const bookingsElement = document.getElementById('bookings-count');
+                    if (bookingsElement) {
+                        bookingsElement.textContent = bookingsCount;
+                    }
+                    
+                    // Update fuel sales with random amount between 25000-35000
+                    const salesAmount = Math.floor(Math.random() * 10000) + 25000;
+                    const salesElement = document.getElementById('fuel-sales');
+                    if (salesElement) {
+                        salesElement.textContent = '₹' + salesAmount.toLocaleString();
+                    }
+                    
+                    // Update booking ratio
+                    const completed = Math.floor(Math.random() * 5) + 1;
+                    const total = Math.floor(Math.random() * 3) + 5;
+                    const ratioElement = document.getElementById('booking-ratio');
+                    if (ratioElement) {
+                        ratioElement.textContent = `${completed}/${total}`;
+                    }
+                    
+                    // Update crowd status with different colors based on status
+                    const crowds = ['Low', 'Moderate', 'High', 'Very High'];
+                    const crowdColors = ['#28a745', '#ffc107', '#fd7e14', '#dc3545'];
+                    const randomIndex = Math.floor(Math.random() * crowds.length);
+                    
+                    const crowdElement = document.getElementById('crowd-status');
+                    if (crowdElement) {
+                        crowdElement.textContent = crowds[randomIndex];
+                        crowdElement.style.color = crowdColors[randomIndex];
+                    }
+                }
+                
+                // =====================================
+                // Booking Section Functionality
+                // =====================================
+                function initBookingSection() {
+                    // Function to render booking cards from data
+                    function renderBookingCards(bookingsToRender = sampleData.bookings) {
+                        const bookingContent = document.querySelector('#booking-content');
+                        
+                        // Remove existing booking cards
+                        const existingCards = bookingContent.querySelectorAll('.booking-card');
+                        existingCards.forEach(card => card.remove());
+                        
+                        // Remove any existing "no results" message
+                        const existingNoResults = bookingContent.querySelector('.no-results');
+                        if (existingNoResults) {
+                            existingNoResults.remove();
+                        }
+                        
+                        // Create message for no results
+                        const noResultsEl = document.createElement('div');
+                        noResultsEl.className = 'no-results';
+                        noResultsEl.textContent = 'No bookings found matching your criteria.';
+                        noResultsEl.style.textAlign = 'center';
+                        noResultsEl.style.padding = '30px';
+                        noResultsEl.style.display = 'none';
+                        noResultsEl.style.backgroundColor = '#f8f9fa';
+                        noResultsEl.style.borderRadius = '8px';
+                        noResultsEl.style.margin = '20px 0';
+                        noResultsEl.style.fontWeight = '500';
+                        noResultsEl.style.color = '#6c757d';
+                        noResultsEl.style.transition = 'opacity 0.5s ease-out';
+                        
+                        // Add the no results element after the filter section
+                        const filterSection = bookingContent.querySelector('.filter-section');
+                        if (filterSection.nextElementSibling) {
+                            bookingContent.insertBefore(noResultsEl, filterSection.nextElementSibling);
+                        } else {
+                            bookingContent.appendChild(noResultsEl);
+                        }
+                        
+                        // If no bookings found, show the message and set a timer to hide it
+                        if (bookingsToRender.length === 0) {
+                            noResultsEl.style.display = 'block';
+                            
+                            // Set a timer to automatically hide the message after 3 seconds
+                            setTimeout(() => {
+                                noResultsEl.style.opacity = '0';
+                                
+                                // Remove the element after fade-out animation completes
+                                setTimeout(() => {
+                                    // Check if the element still exists before trying to remove it
+                                    if (noResultsEl && noResultsEl.parentNode) {
+                                        noResultsEl.remove();
+                                    }
+                                }, 500);
+                            }, 3000);
+                            
+                            return;
+                        }
+                        
+                        // Create and append booking cards
+                        bookingsToRender.forEach(booking => {
+                            const card = document.createElement('div');
+                            card.className = 'booking-card';
+                            card.dataset.id = booking.id;
+                            card.dataset.date = booking.date;
+                            card.dataset.status = booking.status;
+                            card.dataset.fuel = booking.fuel;
+                            
+                            const statusClass = booking.status === 'Confirmed' ? 'status-confirmed' : 'status-pending';
+                            
+                            card.innerHTML = `
+                                <div class="booking-header">
+                                    <span class="booking-id">#${booking.id}</span>
+                                    <span class="booking-status ${statusClass}">${booking.status}</span>
+                                </div>
+                                <h3 class="customer-name">${booking.customer}</h3>
+                                <div class="pump-location">
+                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9 1.5C6.0975 1.5 3.75 3.8475 3.75 6.75C3.75 10.6875 9 16.5 9 16.5C9 16.5 14.25 10.6875 14.25 6.75C14.25 3.8475 11.9025 1.5 9 1.5ZM9 8.625C8.505 8.625 8.03099 8.43001 7.68176 8.08176C7.33252 7.73252 7.13752 7.25851 7.13752 6.76351C7.13752 6.2685 7.33252 5.7945 7.68176 5.44525C8.03099 5.09601 8.505 4.90101 9 4.90101C9.495 4.90101 9.96901 5.09601 10.3182 5.44525C10.6675 5.7945 10.8625 6.2685 10.8625 6.76351C10.8625 7.25851 10.6675 7.73252 10.3182 8.08176C9.96901 8.43001 9.495 8.625 9 8.625Z" fill="#6C757D"/>
+                                    </svg>
+                                    ${booking.location}
+                                </div>
+                                <div class="booking-details">
+                                    <div class="detail-column">
+                                        <div class="detail-label">Booking Date</div>
+                                        <div class="detail-value">${booking.date}</div>
+                                    </div>
+                                    <div class="detail-column">
+                                        <div class="detail-label">Booking Time</div>
+                                        <div class="detail-value">${booking.time}</div>
+                                    </div>
+                                    <div class="detail-column">
+                                        <div class="detail-label">Fuel Type</div>
+                                        <div class="detail-value">${booking.fuel}</div>
+                                    </div>
+                                    <div class="detail-column">
+                                        <div class="detail-label">Amount</div>
+                                        <div class="detail-value">₹${booking.amount.toLocaleString()}</div>
+                                    </div>
+                                </div>
+                                <a href="#" class="view-details">
+                                    View Details
+                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9 3.75L7.9425 4.8075L12.1275 9L7.9425 13.1925L9 14.25L14.25 9L9 3.75Z" fill="#4A6FDC"/>
+                                    </svg>
+                                </a>
+                            `;
+                            
+                            bookingContent.appendChild(card);
+                        });
+                        
+                        // Attach event listeners to view details buttons
+                        attachViewDetailsListeners();
+                    }
+                    
+                    // Attach event listeners to view details links
+                    function attachViewDetailsListeners() {
+                        const viewDetailsLinks = document.querySelectorAll('#booking-content .view-details');
+                        viewDetailsLinks.forEach(link => {
+                            link.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                const bookingCard = this.closest('.booking-card');
+                                const bookingId = bookingCard.dataset.id;
+                                window.location.href = `booking-details.html?id=${bookingId}`;
+                            });
+                        });
+                    }
+                    
+                    // Initial render of booking cards
+                    renderBookingCards();
+                    
+                    // Create filter modal
+                    function createFilterModal() {
+                        // Remove existing modal if any
+                        const existingModal = document.getElementById('filter-modal');
+                        if (existingModal) {
+                            existingModal.remove();
+                        }
+                        
+                        const modal = document.createElement('div');
+                        modal.id = 'filter-modal';
+                        modal.style.position = 'fixed';
+                        modal.style.top = '0';
+                        modal.style.left = '0';
+                        modal.style.width = '100%';
+                        modal.style.height = '100%';
+                        modal.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+                        modal.style.display = 'flex';
+                        modal.style.justifyContent = 'center';
+                        modal.style.alignItems = 'center';
+                        modal.style.zIndex = '1000';
+                        
+                        const modalContent = document.createElement('div');
+                        modalContent.style.backgroundColor = 'white';
+                        modalContent.style.borderRadius = '10px';
+                        modalContent.style.padding = '30px';
+                        modalContent.style.width = '400px';
+                        modalContent.style.maxWidth = '90%';
+                        modalContent.style.position = 'relative';
+                        
+                        const closeBtn = document.createElement('button');
+                        closeBtn.innerHTML = '&times;';
+                        closeBtn.style.position = 'absolute';
+                        closeBtn.style.top = '15px';
+                        closeBtn.style.right = '15px';
+                        closeBtn.style.border = 'none';
+                        closeBtn.style.background = 'none';
+                        closeBtn.style.fontSize = '24px';
+                        closeBtn.style.cursor = 'pointer';
+                        closeBtn.style.color = '#6c757d';
+                        
+                        closeBtn.addEventListener('click', () => {
+                            modal.remove();
+                        });
+                        
+                        const heading = document.createElement('h3');
+                        heading.textContent = 'Filter Bookings';
+                        heading.style.marginBottom = '20px';
+                        heading.style.fontSize = '20px';
+                        heading.style.fontWeight = '600';
+                        heading.style.color = '#2c3e50';
+                        
+                        // Status filter
+                        const statusGroup = document.createElement('div');
+                        statusGroup.style.marginBottom = '20px';
+                        
+                        const statusLabel = document.createElement('label');
+                        statusLabel.textContent = 'Booking Status';
+                        statusLabel.style.display = 'block';
+                        statusLabel.style.marginBottom = '8px';
+                        statusLabel.style.fontWeight = '500';
+                        
+                        const statusSelect = document.createElement('select');
+                        statusSelect.id = 'status-filter';
+                        statusSelect.style.width = '100%';
+                        statusSelect.style.padding = '10px';
+                        statusSelect.style.border = '1px solid #dfe3e9';
+                        statusSelect.style.borderRadius = '6px';
+                        statusSelect.style.fontSize = '16px';
+                        
+                        const statusOptions = ['All', 'Confirmed', 'Pending'];
+                        statusOptions.forEach(option => {
+                            const optEl = document.createElement('option');
+                            optEl.value = option;
+                            optEl.textContent = option;
+                            statusSelect.appendChild(optEl);
+                        });
+                        
+                        statusGroup.appendChild(statusLabel);
+                        statusGroup.appendChild(statusSelect);
+                        
+                        // Fuel type filter
+                        const fuelGroup = document.createElement('div');
+                        fuelGroup.style.marginBottom = '20px';
+                        
+                        const fuelLabel = document.createElement('label');
+                        fuelLabel.textContent = 'Fuel Type';
+                        fuelLabel.style.display = 'block';
+                        fuelLabel.style.marginBottom = '8px';
+                        fuelLabel.style.fontWeight = '500';
+                        
+                        const fuelSelect = document.createElement('select');
+                        fuelSelect.id = 'fuel-filter';
+                        fuelSelect.style.width = '100%';
+                        fuelSelect.style.padding = '10px';
+                        fuelSelect.style.border = '1px solid #dfe3e9';
+                        fuelSelect.style.borderRadius = '6px';
+                        fuelSelect.style.fontSize = '16px';
+                        
+                        const fuelOptions = ['All', 'Petrol', 'Diesel'];
+                        fuelOptions.forEach(option => {
+                            const optEl = document.createElement('option');
+                            optEl.value = option;
+                            optEl.textContent = option;
+                            fuelSelect.appendChild(optEl);
+                        });
+                        
+                        fuelGroup.appendChild(fuelLabel);
+                        fuelGroup.appendChild(fuelSelect);
+                        
+                        // Date filter
+                        const dateGroup = document.createElement('div');
+                        dateGroup.style.marginBottom = '20px';
+                        
+                        const dateLabel = document.createElement('label');
+                        dateLabel.textContent = 'Booking Date';
+                        dateLabel.style.display = 'block';
+                        dateLabel.style.marginBottom = '8px';
+                        dateLabel.style.fontWeight = '500';
+                        
+                        const dateInput = document.createElement('input');
+                        dateInput.type = 'date';
+                        dateInput.id = 'date-filter';
+                        dateInput.style.width = '100%';
+                        dateInput.style.padding = '10px';
+                        dateInput.style.border = '1px solid #dfe3e9';
+                        dateInput.style.borderRadius = '6px';
+                        dateInput.style.fontSize = '16px';
+                        
+                        dateGroup.appendChild(dateLabel);
+                        dateGroup.appendChild(dateInput);
+                        
+                        // Apply filter button
+                        const applyBtn = document.createElement('button');
+                        applyBtn.textContent = 'Apply Filters';
+                        applyBtn.style.width = '100%';
+                        applyBtn.style.padding = '12px';
+                        applyBtn.style.backgroundColor = '#4CAF50';
+                        applyBtn.style.color = 'white';
+                        applyBtn.style.border = 'none';
+                        applyBtn.style.borderRadius = '6px';
+                        applyBtn.style.fontSize = '16px';
+                        applyBtn.style.fontWeight = '500';
+                        applyBtn.style.cursor = 'pointer';
+                        applyBtn.style.marginTop = '10px';
+                        
+                        applyBtn.addEventListener('click', () => {
+                            const statusFilter = document.getElementById('status-filter').value;
+                            const fuelFilter = document.getElementById('fuel-filter').value;
+                            const dateFilter = document.getElementById('date-filter').value;
+                            
+                            applyFilters(statusFilter, fuelFilter, dateFilter);
+                            modal.remove();
+                        });
+                        
+                        // Reset filter button
+                        const resetBtn = document.createElement('button');
+                        resetBtn.textContent = 'Reset Filters';
+                        resetBtn.style.width = '100%';
+                        resetBtn.style.padding = '12px';
+                        resetBtn.style.backgroundColor = '#f0f2f5';
+                        resetBtn.style.color = '#333';
+                        resetBtn.style.border = '1px solid #dfe3e9';
+                        resetBtn.style.borderRadius = '6px';
+                        resetBtn.style.fontSize = '16px';
+                        resetBtn.style.fontWeight = '500';
+                        resetBtn.style.cursor = 'pointer';
+                        resetBtn.style.marginTop = '10px';
+                        
+                        resetBtn.addEventListener('click', () => {
+                            document.getElementById('status-filter').value = 'All';
+                            document.getElementById('fuel-filter').value = 'All';
+                            document.getElementById('date-filter').value = '';
+                            
+                            // Immediately refresh and show all bookings
+                            renderBookingCards();
+                            
+                            // Provide visual feedback
+                            resetBtn.textContent = 'Filters Reset ✓';
+                            setTimeout(() => {
+                                resetBtn.textContent = 'Reset Filters';
+                            }, 1000);
+                        });
+                        
+                        // Assemble modal
+                        modalContent.appendChild(closeBtn);
+                        modalContent.appendChild(heading);
+                        modalContent.appendChild(statusGroup);
+                        modalContent.appendChild(fuelGroup);
+                        modalContent.appendChild(dateGroup);
+                        modalContent.appendChild(applyBtn);
+                        modalContent.appendChild(resetBtn);
+                        modal.appendChild(modalContent);
+                        
+                        document.body.appendChild(modal);
+                        
+                        // Close modal when clicking outside
+                        modal.addEventListener('click', function(e) {
+                            if (e.target === this) {
+                                modal.remove();
+                            }
+                        });
+                    }
+                    
+                    // Apply filters
+                    function applyFilters(status, fuel, date) {
+                        let filteredBookings = [...sampleData.bookings];
+                        
+                        // Apply status filter
+                        if (status && status !== 'All') {
+                            filteredBookings = filteredBookings.filter(booking => booking.status === status);
+                        }
+                        
+                        // Apply fuel filter
+                        if (fuel && fuel !== 'All') {
+                            filteredBookings = filteredBookings.filter(booking => booking.fuel === fuel);
+                        }
+                        
+                        // Apply date filter
+                        if (date) {
+                            // Convert date strings for comparison
+                            // Assuming booking.date is in format "May 15, 2025"
+                            filteredBookings = filteredBookings.filter(booking => {
+                                const bookingDate = new Date(booking.date);
+                                const filterDate = new Date(date);
+                                return bookingDate.toDateString() === filterDate.toDateString();
+                            });
+                        }
+                        
+                        // Render filtered bookings
+                        // If no bookings match the filter criteria, the "No bookings found" message 
+                        // will be displayed and automatically hidden after 3 seconds
+                        renderBookingCards(filteredBookings);
+                    }
+                    
+                    // Add search functionality
+                    const searchInput = document.querySelector('#booking-content .search-input');
+                    if (searchInput) {
+                        searchInput.addEventListener('input', function() {
+                            const searchTerm = this.value.toLowerCase().trim();
+                            
+                            if (searchTerm === '') {
+                                // If search is cleared, show all bookings
+                                renderBookingCards();
+                                return;
+                            }
+                            
+                            // Filter bookings based on search term
+                            const filteredBookings = sampleData.bookings.filter(booking => {
+                                return booking.customer.toLowerCase().includes(searchTerm) || 
+                                       booking.id.toLowerCase().includes(searchTerm) || 
+                                       booking.location.toLowerCase().includes(searchTerm);
+                            });
+                            
+                            // Render filtered bookings
+                            // If no bookings match the search criteria, the "No bookings found" message 
+                            // will be displayed and automatically hidden after 3 seconds
+                            renderBookingCards(filteredBookings);
+                        });
+                    }
+                    
+                    // Refresh button functionality
+                    const refreshBtn = document.querySelector('#booking-content .refresh-btn');
+                    if (refreshBtn) {
+                        
+                        refreshBtn.addEventListener('click', function() {
+                            // Clear any search input
+                            const searchInput = document.querySelector('#booking-content .search-input');
+                            if (searchInput) {
+                                searchInput.value = '';
+                            }
+                            
+                            // Get booking content container
+                            const bookingContent = document.querySelector('#booking-content');
+                            const existingCards = bookingContent.querySelectorAll('.booking-card');
+                            
+                            // Create loading spinner to show while "refreshing"
+                            const loadingSpinner = document.createElement('div');
+                            loadingSpinner.className = 'loading-spinner';
+                            loadingSpinner.innerHTML = `
+                                <div class="spinner"></div>
+                                <p>Loading bookings...</p>
+                            `;
+                            
+                            
+                            // Remove existing booking cards and any no-results message
+                            existingCards.forEach(card => card.remove());
+                            const noResults = bookingContent.querySelector('.no-results');
+                            if (noResults) noResults.remove();
+                            
+                            // Add spinner after filter section
+                            const filterSection = bookingContent.querySelector('.filter-section');
+                            if (filterSection.nextElementSibling) {
+                                bookingContent.insertBefore(loadingSpinner, filterSection.nextElementSibling);
+                            } else {
+                                bookingContent.appendChild(loadingSpinner);
+                            }
+                            
+                            // Add visual animation for feedback on refresh icon
+                            const icon = refreshBtn.querySelector('svg');
+                            if (icon) {
+                                // Add rotation animation
+                                icon.style.transition = 'transform 0.5s ease-in-out';
+                                icon.style.transform = 'rotate(360deg)';
+                                
+                                // Reset after animation completes
+                                setTimeout(() => {
+                                    icon.style.transition = 'none';
+                                    icon.style.transform = 'rotate(0deg)';
+                                    
+                                    // Re-enable the transition for next click
+                                    setTimeout(() => {
+                                        icon.style.transition = 'transform 0.5s ease-in-out';
+                                    }, 50);
+                                }, 500);
+                            }
+                            
+                            // Provide additional feedback on button text
+                            const originalText = refreshBtn.textContent.trim();
+                            refreshBtn.textContent = 'Refreshing...';
+                            
+                            // Simulate network delay for loading (remove in production and use actual data fetching)
+                            setTimeout(() => {
+                                // Remove loading spinner
+                                loadingSpinner.remove();
+                                
+                                // Reset and render all bookings
+                                renderBookingCards();
+                                
+                                // Reset button text
+                                refreshBtn.textContent = 'Refreshed ✓';
+                                setTimeout(() => {
+                                    refreshBtn.textContent = originalText;
+                                }, 1000);
+                            }, 1500); // Simulate 1.5 second loading time
+                        });
+                    }
+                    
+                    // Filter button functionality - opens the filter modal
+                    const filterBtn = document.querySelector('#booking-content .filter-btn');
+                    if (filterBtn) {
+                        filterBtn.addEventListener('click', function() {
+                            createFilterModal();
+                        });
+                    }
+                    
+                    // Today button functionality - filters bookings for today
+                    const todayBtn = document.querySelector('#booking-content .today-btn');
+                    if (todayBtn) {
+                        todayBtn.addEventListener('click', function() {
+                            // Get today's date in the format "May 15, 2025"
+                            const today = new Date();
+                            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                            const formattedDate = `${months[today.getMonth()]} ${today.getDate()}, ${today.getFullYear()}`;
+                            
+                            // Filter bookings for today
+                            const todayBookings = sampleData.bookings.filter(booking => {
+                                // Note: In real app, we would compare dates properly
+                                // For demo purposes, we'll just check if today's date string is contained in booking.date
+                                return booking.date.includes(formattedDate);
+                            });
+                            
+                            // Render today's bookings
+                            renderBookingCards(todayBookings);
+                        });
+                    }
+                }
+                
+                // =====================================
+                // Employees Section Functionality
+                // =====================================
+                function initEmployeesSection() {
+                    // Search functionality for employees
+                    const searchInput = document.querySelector('#employees-content .search-input');
+                    if (searchInput) {
+                        searchInput.addEventListener('input', function() {
+                            const searchTerm = this.value.toLowerCase();
+                            const employeeItems = document.querySelectorAll('#employees-content .employee-item');
+                            
+                            employeeItems.forEach(item => {
+                                const employeeName = item.querySelector('.employee-name').textContent.toLowerCase();
+                                const position = item.querySelector('.position-column').textContent.toLowerCase();
+                                
+                                if (employeeName.includes(searchTerm) || position.includes(searchTerm)) {
+                                    item.style.display = 'flex';
+                                } else {
+                                    item.style.display = 'none';
+                                }
+                            });
+                        });
+                    }
+                    
+                    // Export button functionality
+                    const exportBtn = document.querySelector('#employees-content .export-btn');
+                    if (exportBtn) {
+                        exportBtn.addEventListener('click', function() {
+                            alert('Exporting employee data to CSV/Excel');
+                        });
+                    }
+                    
+                    // Add employee button functionality
+                    const addEmployeeBtn = document.querySelector('#employees-content .add-employee-btn');
+                    if (addEmployeeBtn) {
+                        addEmployeeBtn.addEventListener('click', function() {
+                            window.location.href = 'add-employee.html';
+                        });
+                    }
+                    
+                    // Edit buttons functionality
+                    const editBtns = document.querySelectorAll('#employees-content .edit-btn');
+                    editBtns.forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const employeeItem = this.closest('.employee-item');
+                            const employeeName = employeeItem.querySelector('.employee-name').textContent;
+                            // Extract employee ID
+                            for (const emp of sampleData.employees) {
+                                if (emp.name === employeeName) {
+                                    window.location.href = `edit-employee.html?id=${emp.id}`;
+                                    break;
+                                }
+                            }
+                        });
+                    });
+                    
+                    // Delete buttons functionality with confirmation dialog
+                    const deleteBtns = document.querySelectorAll('#employees-content .delete-btn');
+                    deleteBtns.forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const employeeItem = this.closest('.employee-item');
+                            const employeeName = employeeItem.querySelector('.employee-name').textContent;
+                            if (confirm(`Are you sure you want to delete ${employeeName}?`)) {
+                                alert(`${employeeName} has been deleted`);
+                                employeeItem.remove();
+                            }
+                        });
+                    });
+                }
+                
+                // =====================================
+                // Safety Monitoring Functionality
+                // =====================================
+                function initSafetySection() {
+                    // Edit links functionality
+                    const editLinks = document.querySelectorAll('#safety-monitoring-content .action-link.edit');
+                    editLinks.forEach(link => {
+                        link.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            const vehicleId = this.closest('.table-row').querySelector('.vehicle-id').textContent;
+                            window.location.href = `safety-record.html?id=${vehicleId}`;
+                        });
+                    });
+                    
+                    // Delete links functionality with confirmation
+                    const deleteLinks = document.querySelectorAll('#safety-monitoring-content .action-link.delete');
+                    deleteLinks.forEach(link => {
+                        link.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            const vehicleId = this.closest('.table-row').querySelector('.vehicle-id').textContent;
+                            if (confirm(`Are you sure you want to delete record for ${vehicleId}?`)) {
+                                alert(`Record for ${vehicleId} has been deleted`);
+                                this.closest('.table-row').remove();
+                            }
+                        });
+                    });
+                }
+                
+                // =====================================
+                // Settings Section Functionality
+                // =====================================
+                function initSettingsSection() {
+                    // Password toggle functionality (show/hide password)
+                    const passwordToggle = document.querySelector('.password-toggle');
+                    const passwordInput = document.getElementById('station-password');
+                    
+                    if (passwordToggle && passwordInput) {
+                        passwordToggle.addEventListener('click', function() {
+                            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                            passwordInput.setAttribute('type', type);
+                        });
+                    }
+                    
+                    // Edit button functionality - toggle between view/edit modes
+                    const editBtn = document.querySelector('.settings-form .edit-btn');
+                    const formInputs = document.querySelectorAll('.settings-form .form-control');
+                    
+                    if (editBtn && formInputs.length > 0) {
+                        editBtn.addEventListener('click', function() {
+                            editMode = !editMode;
+                            
+                            // Toggle readonly state for all inputs
+                            formInputs.forEach(input => {
+                                input.readOnly = !editMode;
+                            });
+                            
+                            // Change button text based on mode
+                            if (editMode) {
+                                editBtn.innerHTML = `
+                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9 1.5C4.86 1.5 1.5 4.86 1.5 9C1.5 13.14 4.86 16.5 9 16.5C13.14 16.5 16.5 13.14 16.5 9C16.5 4.86 13.14 1.5 9 1.5ZM7.5 12.75L3.75 9L4.8075 7.9425L7.5 10.6275L13.1925 4.935L14.25 6L7.5 12.75Z" fill="white"/>
+                                    </svg>
+                                    Save
+                                `;
+                            } else {
+                                // Save the form data
+                                const formData = {
+                                    name: document.getElementById('station-name').value,
+                                    id: document.getElementById('station-id').value,
+                                    mobile: document.getElementById('station-mobile').value,
+                                    email: document.getElementById('station-email').value,
+                                    password: document.getElementById('station-password').value
+                                };
+                                
+                                // In a real implementation, this would save to the database
+                                console.log('Saving station settings:', formData);
+                                alert('Station settings saved successfully!');
+                                
+                                editBtn.innerHTML = `
+                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M2.25 12.9375V15.75H5.0625L13.3575 7.455L10.545 4.6425L2.25 12.9375ZM15.5325 5.28C15.825 4.9875 15.825 4.515 15.5325 4.2225L13.7775 2.4675C13.485 2.175 13.0125 2.175 12.72 2.4675L11.3475 3.84L14.16 6.6525L15.5325 5.28Z" fill="white"/>
+                                    </svg>
+                                    Edit
+                                `;
+                            }
+                        });
+                    }
+                }
+                
+                // =====================================
+                // Sales Analytics Functionality
+                // =====================================
+                function initSalesAnalyticsSection() {
+                    // Add transaction row click functionality
+                    const tableRows = document.querySelectorAll('#sales-analytics-content .table-row');
+                    tableRows.forEach(row => {
+                        row.addEventListener('click', function() {
+                            const transactionId = this.querySelector('.transaction-id').textContent;
+                            window.location.href = `transaction-details.html?id=${transactionId.replace('#', '')}`;
+                        });
+                        
+                        // Add pointer cursor style
+                        row.style.cursor = 'pointer';
+                    });
+                }
+                
+                // =====================================
+                // Header and Global Controls
+                // =====================================
+                function initGlobalControls() {
+                    // Notification icon functionality
+                    const notificationIcon = document.querySelector('.notification-icon');
+                    if (notificationIcon) {
+                        notificationIcon.addEventListener('click', function() {
+                            alert('No new notifications at this time');
+                        });
+                    }
+                    
+                    // Logout button functionality with confirmation
+                    const logoutBtn = document.querySelector('.logout-btn');
+                    if (logoutBtn) {
+                        logoutBtn.addEventListener('click', function() {
+                            if (confirm('Are you sure you want to logout?')) {
+                                alert('You have been successfully logged out');
+                                window.location.href = 'login.html';
+                            }
+                        });
+                    }
+                    
+                    // Camera feed view all button
+                    const viewAllBtn = document.querySelector('.camera-section .view-all');
+                    if (viewAllBtn) {
+                        viewAllBtn.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            alert('Full camera view would open here');
+                        });
+                    }
+                }
+                
+                // =====================================
+                // Initialize everything on page load
+                // =====================================
+                // Set up navigation
+                initNavigation();
+                
+                // Initialize page-specific functionality
+                initBookingSection();
+                initEmployeesSection();
+                initSafetySection();
+                initSettingsSection();
+                initSalesAnalyticsSection();
+                initGlobalControls();
+                
+                // Show dashboard content by default on page load
+                document.getElementById('dashboard-content').style.display = 'block';
+                updateDashboardStats();
+                
+                // Set up periodic updates for dashboard
+                setInterval(updateDashboardStats, 30000); // Update every 30 seconds
+            });
+        </script>
+
+        <!-- ========================================
+             Chart.js Library Import
+             ======================================== -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <!-- ========================================
+             Sales Chart Initialization Script
+             ======================================== -->
+        <script>
+            // Initialize the sales chart with Chart.js
+            function initSalesChart() {
+                const ctx = document.getElementById('salesChart').getContext('2d');
+                
+                // Sample data for the chart
+                const salesData = {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [
+                        {
+                            label: 'Petrol',
+                            backgroundColor: '#4285F4',
+                            borderColor: '#4285F4',
+                            data: [65000, 59000, 80000, 81000, 56000, 85000],
+                            barPercentage: 0.6,
+                        },
+                        {
+                            label: 'Diesel',
+                            backgroundColor: '#172B4D',
+                            borderColor: '#172B4D',
+                            data: [48000, 52000, 63000, 72000, 51000, 74000],
+                            barPercentage: 0.6,
+                        },
+                        {
+                            label: 'CNG',
+                            backgroundColor: '#34A853',
+                            borderColor: '#34A853',
+                            data: [35000, 42000, 50000, 55000, 48000, 62000],
+                            barPercentage: 0.6,
+                        }
+                    ]
+                };
+                
+                // Chart configuration
+                const config = {
+                    type: 'bar',
+                    data: salesData,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                align: 'end',
+                                labels: {
+                                    boxWidth: 12,
+                                    usePointStyle: true,
+                                    pointStyle: 'circle'
+                                }
+                            },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false,
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed.y !== null) {
+                                            label += '₹' + context.parsed.y.toLocaleString();
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    borderDash: [2, 4],
+                                    color: '#e0e0e0'
+                                },
+                                ticks: {
+                                    callback: function(value) {
+                                        return '₹' + (value / 1000) + 'k';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                };
+                
+                // Create the chart
+                return new Chart(ctx, config);
+            }
+            
+            // Function to update chart data based on selected time range
+            function updateChartData(chart, timeRange) {
+                // Simulated data for different time ranges
+                const dataByRange = {
+                    'This Month': {
+                        petrol: [65000, 59000, 80000, 81000, 56000, 85000],
+                        diesel: [48000, 52000, 63000, 72000, 51000, 74000],
+                        cng: [35000, 42000, 50000, 55000, 48000, 62000],
+                        total: 558890,
+                        change: 12.4
+                    },
+                    'Last Month': {
+                        petrol: [58000, 61000, 75000, 79000, 62000, 78000],
+                        diesel: [45000, 48000, 59000, 68000, 57000, 70000],
+                        cng: [32000, 38000, 47000, 52000, 45000, 58000],
+                        total: 496000,
+                        change: -8.2
+                    },
+                    'Last 3 Months': {
+                        petrol: [70000, 68000, 85000, 87000, 72000, 90000],
+                        diesel: [52000, 57000, 68000, 77000, 63000, 82000],
+                        cng: [38000, 45000, 54000, 60000, 52000, 68000],
+                        total: 1580000,
+                        change: 5.7
+                    },
+                    'Last 6 Months': {
+                        petrol: [63000, 66000, 82000, 84000, 68000, 88000],
+                        diesel: [50000, 54000, 65000, 75000, 60000, 79000],
+                        cng: [36000, 43000, 52000, 58000, 50000, 64000],
+                        total: 3080000,
+                        change: 9.3
+                    },
+                    'This Year': {
+                        petrol: [72000, 75000, 89000, 90000, 78000, 95000],
+                        diesel: [58000, 62000, 73000, 82000, 69000, 86000],
+                        cng: [40000, 48000, 58000, 65000, 55000, 72000],
+                        total: 9350000,
+                        change: 15.8
+                    }
+                };
+                
+                // Get data for the selected time range
+                const data = dataByRange[timeRange] || dataByRange['This Month'];
+                
+                // Update chart datasets
+                chart.data.datasets[0].data = data.petrol;
+                chart.data.datasets[1].data = data.diesel;
+                chart.data.datasets[2].data = data.cng;
+                chart.update();
+                
+                // Update the total sales value and percentage change
+                const salesValueElement = document.querySelector('.sales-value');
+                const salesChangeElement = document.querySelector('.sales-change');
+                
+                if (salesValueElement) {
+                    salesValueElement.textContent = '₹' + data.total.toLocaleString('en-IN');
+                }
+                
+                if (salesChangeElement) {
+                    const changeText = Math.abs(data.change).toFixed(1) + '% vs lastmonth';
+                    salesChangeElement.textContent = changeText;
+                    
+                    if (data.change >= 0) {
+                        salesChangeElement.classList.remove('negative');
+                        salesChangeElement.classList.add('positive');
+                    } else {
+                        salesChangeElement.classList.remove('positive');
+                        salesChangeElement.classList.add('negative');
+                    }
+                }
+            }
+            
+            // Initialize the chart when the DOM is loaded
+            document.addEventListener('DOMContentLoaded', function() {
+                let salesChart;
+                
+                // Create sales chart when navigating to the sales analytics page
+                const salesNavItem = document.querySelector('.nav-item[data-page="Sales Analytics"]');
+                if (salesNavItem) {
+                    salesNavItem.addEventListener('click', function() {
+                        // Initialize chart with a slight delay to ensure the canvas is visible
+                        setTimeout(() => {
+                            if (!salesChart) {
+                                salesChart = initSalesChart();
+                            }
+                        }, 100);
+                    });
+                }
+                
+                // Handle time selector dropdown changes
+                const timeDropdown = document.querySelector('.time-dropdown');
+                if (timeDropdown) {
+                    timeDropdown.addEventListener('change', function() {
+                        if (salesChart) {
+                            updateChartData(salesChart, this.value);
+                        }
+                    });
+                }
+                
+                // Implement filter functionality for Sales Analytics
+                const salesFilterBtn = document.getElementById('sales-filter-btn');
+                if (salesFilterBtn) {
+                    salesFilterBtn.addEventListener('click', function() {
+                        createSalesFilterModal();
+                    });
+                }
+                
+                // Create sales filter modal
+                function createSalesFilterModal() {
+                    // Remove existing modal if any
+                    const existingModal = document.getElementById('sales-filter-modal');
+                    if (existingModal) {
+                        existingModal.remove();
+                    }
+                    
+                    const modal = document.createElement('div');
+                    modal.id = 'sales-filter-modal';
+                    modal.style.position = 'fixed';
+                    modal.style.top = '0';
+                    modal.style.left = '0';
+                    modal.style.width = '100%';
+                    modal.style.height = '100%';
+                    modal.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+                    modal.style.display = 'flex';
+                    modal.style.justifyContent = 'center';
+                    modal.style.alignItems = 'center';
+                    modal.style.zIndex = '1000';
+                    
+                    const modalContent = document.createElement('div');
+                    modalContent.style.backgroundColor = 'white';
+                    modalContent.style.borderRadius = '12px';
+                    modalContent.style.padding = '30px';
+                    modalContent.style.width = '450px';
+                    modalContent.style.maxWidth = '90%';
+                    modalContent.style.position = 'relative';
+                    modalContent.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.2)';
+                    modalContent.style.margin = '0 auto';
+                    
+                    const closeBtn = document.createElement('button');
+                    closeBtn.innerHTML = '&times;';
+                    closeBtn.style.position = 'absolute';
+                    closeBtn.style.top = '15px';
+                    closeBtn.style.right = '15px';
+                    closeBtn.style.border = 'none';
+                    closeBtn.style.background = 'none';
+                    closeBtn.style.fontSize = '28px';
+                    closeBtn.style.cursor = 'pointer';
+                    closeBtn.style.color = '#666';
+                    closeBtn.style.lineHeight = '1';
+                    
+                    closeBtn.addEventListener('click', () => {
+                        modal.remove();
+                    });
+                    
+                    const heading = document.createElement('h3');
+                    heading.textContent = 'Filter Transactions';
+                    heading.style.marginBottom = '25px';
+                    heading.style.fontSize = '24px';
+                    heading.style.fontWeight = '600';
+                    heading.style.color = '#2c3e50';
+                    heading.style.marginTop = '0';
+                    
+                    // Fuel type filter
+                    const fuelGroup = document.createElement('div');
+                    fuelGroup.style.marginBottom = '25px';
+                    
+                    const fuelLabel = document.createElement('label');
+                    fuelLabel.textContent = 'Fuel Type';
+                    fuelLabel.style.display = 'block';
+                    fuelLabel.style.marginBottom = '10px';
+                    fuelLabel.style.fontWeight = '500';
+                    fuelLabel.style.fontSize = '16px';
+                    fuelLabel.style.color = '#333';
+                    
+                    const fuelSelect = document.createElement('select');
+                    fuelSelect.id = 'fuel-filter';
+                    fuelSelect.style.width = '100%';
+                    fuelSelect.style.padding = '12px 15px';
+                    fuelSelect.style.border = '1px solid #dfe3e9';
+                    fuelSelect.style.borderRadius = '8px';
+                    fuelSelect.style.fontSize = '16px';
+                    fuelSelect.style.appearance = 'none';
+                    fuelSelect.style.backgroundImage = "url('data:image/svg+xml;utf8,<svg fill=\"%23333\" height=\"24\" viewBox=\"0 0 24 24\" width=\"24\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M7 10l5 5 5-5z\"/><path d=\"M0 0h24v24H0z\" fill=\"none\"/></svg>')";
+                    fuelSelect.style.backgroundRepeat = 'no-repeat';
+                    fuelSelect.style.backgroundPosition = 'right 10px center';
+                    fuelSelect.style.cursor = 'pointer';
+                    
+                    const fuelOptions = ['All', 'Petrol', 'Diesel', 'CNG'];
+                    fuelOptions.forEach(option => {
+                        const optEl = document.createElement('option');
+                        optEl.value = option;
+                        optEl.textContent = option;
+                        fuelSelect.appendChild(optEl);
+                    });
+                    
+                    fuelGroup.appendChild(fuelLabel);
+                    fuelGroup.appendChild(fuelSelect);
+                    
+                    // Payment method filter
+                    const paymentGroup = document.createElement('div');
+                    paymentGroup.style.marginBottom = '25px';
+                    
+                    const paymentLabel = document.createElement('label');
+                    paymentLabel.textContent = 'Payment Method';
+                    paymentLabel.style.display = 'block';
+                    paymentLabel.style.marginBottom = '10px';
+                    paymentLabel.style.fontWeight = '500';
+                    paymentLabel.style.fontSize = '16px';
+                    paymentLabel.style.color = '#333';
+                    
+                    const paymentSelect = document.createElement('select');
+                    paymentSelect.id = 'payment-filter';
+                    paymentSelect.style.width = '100%';
+                    paymentSelect.style.padding = '12px 15px';
+                    paymentSelect.style.border = '1px solid #dfe3e9';
+                    paymentSelect.style.borderRadius = '8px';
+                    paymentSelect.style.fontSize = '16px';
+                    paymentSelect.style.appearance = 'none';
+                    paymentSelect.style.backgroundImage = "url('data:image/svg+xml;utf8,<svg fill=\"%23333\" height=\"24\" viewBox=\"0 0 24 24\" width=\"24\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M7 10l5 5 5-5z\"/><path d=\"M0 0h24v24H0z\" fill=\"none\"/></svg>')";
+                    paymentSelect.style.backgroundRepeat = 'no-repeat';
+                    paymentSelect.style.backgroundPosition = 'right 10px center';
+                    paymentSelect.style.cursor = 'pointer';
+                    
+                    const paymentOptions = ['All', 'Credit Card', 'UPI', 'Cash'];
+                    paymentOptions.forEach(option => {
+                        const optEl = document.createElement('option');
+                        optEl.value = option;
+                        optEl.textContent = option;
+                        paymentSelect.appendChild(optEl);
+                    });
+                    
+                    paymentGroup.appendChild(paymentLabel);
+                    paymentGroup.appendChild(paymentSelect);
+                    
+                    // Date range filter
+                    const dateRangeGroup = document.createElement('div');
+                    dateRangeGroup.style.marginBottom = '25px';
+                    
+                    const dateRangeLabel = document.createElement('label');
+                    dateRangeLabel.textContent = 'Date Range';
+                    dateRangeLabel.style.display = 'block';
+                    dateRangeLabel.style.marginBottom = '10px';
+                    dateRangeLabel.style.fontWeight = '500';
+                    dateRangeLabel.style.fontSize = '16px';
+                    dateRangeLabel.style.color = '#333';
+                    
+                    const dateRangeContainer = document.createElement('div');
+                    dateRangeContainer.style.display = 'flex';
+                    dateRangeContainer.style.gap = '15px';
+                    dateRangeContainer.style.alignItems = 'center';
+                    
+                    // Create wrapper for start date with calendar icon
+                    const startDateWrapper = document.createElement('div');
+                    startDateWrapper.style.position = 'relative';
+                    startDateWrapper.style.flex = '1';
+                    
+                    const startDateInput = document.createElement('input');
+                    startDateInput.type = 'text';
+                    startDateInput.id = 'start-date';
+                    startDateInput.placeholder = 'mm/dd/yyyy';
+                    startDateInput.style.width = '100%';
+                    startDateInput.style.padding = '12px 35px 12px 15px';
+                    startDateInput.style.border = '1px solid #dfe3e9';
+                    startDateInput.style.borderRadius = '8px';
+                    startDateInput.style.fontSize = '16px';
+                    startDateInput.style.boxSizing = 'border-box';
+                    
+                    // Calendar icon for start date
+                    const startCalendarIcon = document.createElement('div');
+                    startCalendarIcon.innerHTML = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15.8333 2.5H15V0.833333H13.3333V2.5H6.66667V0.833333H5V2.5H4.16667C3.24167 2.5 2.50833 3.25 2.50833 4.16667L2.5 17.5C2.5 18.4167 3.24167 19.1667 4.16667 19.1667H15.8333C16.75 19.1667 17.5 18.4167 17.5 17.5V4.16667C17.5 3.25 16.75 2.5 15.8333 2.5ZM15.8333 17.5H4.16667V7.5H15.8333V17.5ZM5.83333 9.16667H10V13.3333H5.83333V9.16667Z" fill="#6c757d"/>
+                    </svg>`;
+                    startCalendarIcon.style.position = 'absolute';
+                    startCalendarIcon.style.right = '10px';
+                    startCalendarIcon.style.top = '50%';
+                    startCalendarIcon.style.transform = 'translateY(-50%)';
+                    startCalendarIcon.style.pointerEvents = 'none';
+                    
+                    startDateWrapper.appendChild(startDateInput);
+                    startDateWrapper.appendChild(startCalendarIcon);
+                    
+                    // Create wrapper for end date with calendar icon
+                    const endDateWrapper = document.createElement('div');
+                    endDateWrapper.style.position = 'relative';
+                    endDateWrapper.style.flex = '1';
+                    
+                    const endDateInput = document.createElement('input');
+                    endDateInput.type = 'text';
+                    endDateInput.id = 'end-date';
+                    endDateInput.placeholder = 'mm/dd/yyyy';
+                    endDateInput.style.width = '100%';
+                    endDateInput.style.padding = '12px 35px 12px 15px';
+                    endDateInput.style.border = '1px solid #dfe3e9';
+                    endDateInput.style.borderRadius = '8px';
+                    endDateInput.style.fontSize = '16px';
+                    endDateInput.style.boxSizing = 'border-box';
+                    
+                    // Calendar icon for end date
+                    const endCalendarIcon = document.createElement('div');
+                    endCalendarIcon.innerHTML = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15.8333 2.5H15V0.833333H13.3333V2.5H6.66667V0.833333H5V2.5H4.16667C3.24167 2.5 2.50833 3.25 2.50833 4.16667L2.5 17.5C2.5 18.4167 3.24167 19.1667 4.16667 19.1667H15.8333C16.75 19.1667 17.5 18.4167 17.5 17.5V4.16667C17.5 3.25 16.75 2.5 15.8333 2.5ZM15.8333 17.5H4.16667V7.5H15.8333V17.5ZM5.83333 9.16667H10V13.3333H5.83333V9.16667Z" fill="#6c757d"/>
+                    </svg>`;
+                    endCalendarIcon.style.position = 'absolute';
+                    endCalendarIcon.style.right = '10px';
+                    endCalendarIcon.style.top = '50%';
+                    endCalendarIcon.style.transform = 'translateY(-50%)';
+                    endCalendarIcon.style.pointerEvents = 'none';
+                    
+                    endDateWrapper.appendChild(endDateInput);
+                    endDateWrapper.appendChild(endCalendarIcon);
+                    
+                    dateRangeContainer.appendChild(startDateWrapper);
+                    dateRangeContainer.appendChild(endDateWrapper);
+                    
+                    dateRangeGroup.appendChild(dateRangeLabel);
+                    dateRangeGroup.appendChild(dateRangeContainer);
+                    
+                    // Amount range filter
+                    const amountGroup = document.createElement('div');
+                    amountGroup.style.marginBottom = '25px';
+                    
+                    const amountLabel = document.createElement('label');
+                    amountLabel.textContent = 'Amount Range (₹)';
+                    amountLabel.style.display = 'block';
+                    amountLabel.style.marginBottom = '10px';
+                    amountLabel.style.fontWeight = '500';
+                    amountLabel.style.fontSize = '16px';
+                    amountLabel.style.color = '#333';
+                    
+                    const amountContainer = document.createElement('div');
+                    amountContainer.style.display = 'flex';
+                    amountContainer.style.gap = '15px';
+                    amountContainer.style.alignItems = 'center';
+                    
+                    // Wrapper for min amount with currency symbol
+                    const minAmountWrapper = document.createElement('div');
+                    minAmountWrapper.style.position = 'relative';
+                    minAmountWrapper.style.flex = '1';
+                    
+                    const minAmountInput = document.createElement('input');
+                    minAmountInput.type = 'text';
+                    minAmountInput.id = 'min-amount';
+                    minAmountInput.placeholder = 'Min';
+                    minAmountInput.style.width = '100%';
+                    minAmountInput.style.padding = '12px 15px';
+                    minAmountInput.style.border = '1px solid #dfe3e9';
+                    minAmountInput.style.borderRadius = '8px';
+                    minAmountInput.style.fontSize = '16px';
+                    minAmountInput.style.boxSizing = 'border-box';
+                    
+                    minAmountWrapper.appendChild(minAmountInput);
+                    
+                    // Wrapper for max amount with currency symbol
+                    const maxAmountWrapper = document.createElement('div');
+                    maxAmountWrapper.style.position = 'relative';
+                    maxAmountWrapper.style.flex = '1';
+                    
+                    const maxAmountInput = document.createElement('input');
+                    maxAmountInput.type = 'text';
+                    maxAmountInput.id = 'max-amount';
+                    maxAmountInput.placeholder = 'Max';
+                    maxAmountInput.style.width = '100%';
+                    maxAmountInput.style.padding = '12px 15px';
+                    maxAmountInput.style.border = '1px solid #dfe3e9';
+                    maxAmountInput.style.borderRadius = '8px';
+                    maxAmountInput.style.fontSize = '16px';
+                    maxAmountInput.style.boxSizing = 'border-box';
+                    
+                    maxAmountWrapper.appendChild(maxAmountInput);
+                    
+                    amountContainer.appendChild(minAmountWrapper);
+                    amountContainer.appendChild(maxAmountWrapper);
+                    
+                    amountGroup.appendChild(amountLabel);
+                    amountGroup.appendChild(amountContainer);
+                    
+                    // Apply filter button
+                    const applyBtn = document.createElement('button');
+                    applyBtn.textContent = 'Apply Filters';
+                    applyBtn.style.width = '100%';
+                    applyBtn.style.padding = '14px';
+                    applyBtn.style.backgroundColor = '#4CAF50';
+                    applyBtn.style.color = 'white';
+                    applyBtn.style.border = 'none';
+                    applyBtn.style.borderRadius = '8px';
+                    applyBtn.style.fontSize = '16px';
+                    applyBtn.style.fontWeight = '500';
+                    applyBtn.style.cursor = 'pointer';
+                    applyBtn.style.marginTop = '10px';
+                    applyBtn.style.transition = 'background-color 0.2s';
+                    
+                    applyBtn.addEventListener('mouseover', () => {
+                        applyBtn.style.backgroundColor = '#3d9140';
+                    });
+                    
+                    applyBtn.addEventListener('mouseout', () => {
+                        applyBtn.style.backgroundColor = '#4CAF50';
+                    });
+                    
+                    applyBtn.addEventListener('click', () => {
+                        // Get filter values
+                        const fuelType = document.getElementById('fuel-filter').value;
+                        const paymentMethod = document.getElementById('payment-filter').value;
+                        const startDate = document.getElementById('start-date').value;
+                        const endDate = document.getElementById('end-date').value;
+                        const minAmount = document.getElementById('min-amount').value;
+                        const maxAmount = document.getElementById('max-amount').value;
+                        
+                        // Apply filters to transactions
+                        applyTransactionFilters(fuelType, paymentMethod, startDate, endDate, minAmount, maxAmount);
+                        
+                        // Close modal
+                        modal.remove();
+                    });
+                    
+                    // Reset filter button
+                    const resetBtn = document.createElement('button');
+                    resetBtn.textContent = 'Reset Filters';
+                    resetBtn.style.width = '100%';
+                    resetBtn.style.padding = '14px';
+                    resetBtn.style.backgroundColor = '#f5f7fa';
+                    resetBtn.style.color = '#333';
+                    resetBtn.style.border = '1px solid #dfe3e9';
+                    resetBtn.style.borderRadius = '8px';
+                    resetBtn.style.fontSize = '16px';
+                    resetBtn.style.fontWeight = '500';
+                    resetBtn.style.cursor = 'pointer';
+                    resetBtn.style.marginTop = '15px';
+                    resetBtn.style.transition = 'background-color 0.2s';
+                    
+                    resetBtn.addEventListener('mouseover', () => {
+                        resetBtn.style.backgroundColor = '#eaedf3';
+                    });
+                    
+                    resetBtn.addEventListener('mouseout', () => {
+                        resetBtn.style.backgroundColor = '#f5f7fa';
+                    });
+                    
+                    resetBtn.addEventListener('click', () => {
+                        document.getElementById('fuel-filter').value = 'All';
+                        document.getElementById('payment-filter').value = 'All';
+                        document.getElementById('start-date').value = '';
+                        document.getElementById('end-date').value = '';
+                        document.getElementById('min-amount').value = '';
+                        document.getElementById('max-amount').value = '';
+                        
+                        // Reset transaction filters - show all rows
+                        resetTransactionFilters();
+                        
+                        // Visual feedback
+                        resetBtn.textContent = 'Filters Reset ✓';
+                        setTimeout(() => {
+                            resetBtn.textContent = 'Reset Filters';
+                        }, 1000);
+                    });
+                    
+                    // Assemble modal
+                    modalContent.appendChild(closeBtn);
+                    modalContent.appendChild(heading);
+                    modalContent.appendChild(fuelGroup);
+                    modalContent.appendChild(paymentGroup);
+                    modalContent.appendChild(dateRangeGroup);
+                    modalContent.appendChild(amountGroup);
+                    modalContent.appendChild(applyBtn);
+                    modalContent.appendChild(resetBtn);
+                    modal.appendChild(modalContent);
+                    
+                    document.body.appendChild(modal);
+                    
+                    // Close modal when clicking outside
+                    modal.addEventListener('click', function(e) {
+                        if (e.target === this) {
+                            modal.remove();
+                        }
+                    });
+                }
+                
+                // Function to apply transaction filters
+                function applyTransactionFilters(fuelType, paymentMethod, startDate, endDate, minAmount, maxAmount) {
+                    const transactionRows = document.querySelectorAll('#sales-analytics-content .table-row');
+                    
+                    transactionRows.forEach(row => {
+                        let showRow = true;
+                        
+                        // Fuel type filter
+                        if (fuelType && fuelType !== 'All') {
+                            const rowFuelType = row.querySelector('.fuel-type').textContent;
+                            if (rowFuelType.toUpperCase() !== fuelType.toUpperCase()) {
+                                showRow = false;
+                            }
+                        }
+                        
+                        // Payment method filter
+                        if (showRow && paymentMethod && paymentMethod !== 'All') {
+                            const rowPaymentMethod = row.querySelector('.payment-method').textContent;
+                            if (rowPaymentMethod.toUpperCase() !== paymentMethod.toUpperCase()) {
+                                showRow = false;
+                            }
+                        }
+                        
+                        // Date range filter
+                        if (showRow && (startDate || endDate)) {
+                            const rowDateStr = row.querySelector('.date').textContent;
+                            const rowDateParts = rowDateStr.split(',');
+                            const rowDate = new Date(`${rowDateParts[1]}/${rowDateParts[0]}/${rowDateParts[2]}`);
+                            
+                            if (startDate) {
+                                const startDateObj = new Date(startDate);
+                                if (rowDate < startDateObj) {
+                                    showRow = false;
+                                }
+                            }
+                            
+                            if (endDate) {
+                                const endDateObj = new Date(endDate);
+                                if (rowDate > endDateObj) {
+                                    showRow = false;
+                                }
+                            }
+                        }
+                        
+                        // Amount range filter
+                        if (showRow && (minAmount || maxAmount)) {
+                            const rowAmountStr = row.querySelector('.amount').textContent;
+                            // Extract amount value (remove currency symbol and commas)
+                            const rowAmount = parseFloat(rowAmountStr.replace(/[₹,]/g, ''));
+                            
+                            if (minAmount && rowAmount < minAmount) {
+                                showRow = false;
+                            }
+                            
+                            if (maxAmount && rowAmount > maxAmount) {
+                                showRow = false;
+                            }
+                        }
+                        
+                        // Show or hide row based on filter results
+                        row.style.display = showRow ? 'flex' : 'none';
+                    });
+                }
+                
+                // Function to reset transaction filters
+                function resetTransactionFilters() {
+                    const transactionRows = document.querySelectorAll('#sales-analytics-content .table-row');
+                    transactionRows.forEach(row => {
+                        row.style.display = 'flex';
+                    });
+                }
+            });
+        </script>
+
+        <!-- ========================================
+             Password Toggle Functionality
+             ======================================== -->
+        <script>
+            // Toggle password visibility
+            document.addEventListener('DOMContentLoaded', function() {
+                const passwordToggle = document.querySelector('.password-toggle');
+                const passwordInput = document.getElementById('station-password');
+                
+                if (passwordToggle && passwordInput) {
+                    passwordToggle.addEventListener('click', function() {
+                        if (passwordInput.type === 'password') {
+                            passwordInput.type = 'text';
+                        } else {
+                            passwordInput.type = 'password';
+                        }
+                    });
+                }
+                
+                // Handle edit button
+                const editBtn = document.querySelector('.edit-btn');
+                const formInputs = document.querySelectorAll('.settings-form .form-control');
+                
+                if (editBtn && formInputs.length > 0) {
+                    editBtn.addEventListener('click', function() {
+                        // Toggle readonly state for all inputs
+                        formInputs.forEach(input => {
+                            input.readOnly = !input.readOnly;
+                        });
+                        
+                        // Change button text when in edit mode
+                        if (formInputs[0].readOnly) {
+                            editBtn.innerHTML = `
+                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M2.25 12.9375V15.75H5.0625L13.3575 7.455L10.545 4.6425L2.25 12.9375ZM15.5325 5.28C15.825 4.9875 15.825 4.515 15.5325 4.2225L13.7775 2.4675C13.485 2.175 13.0125 2.175 12.72 2.4675L11.3475 3.84L14.16 6.6525L15.5325 5.28Z" fill="white"/>
+                                </svg>
+                                Edit
+                            `;
+                        } else {
+                            editBtn.innerHTML = `
+                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 1.5C4.86 1.5 1.5 4.86 1.5 9C1.5 13.14 4.86 16.5 9 16.5C13.14 16.5 16.5 13.14 16.5 9C16.5 4.86 13.14 1.5 9 1.5ZM7.5 12.75L3.75 9L4.8075 7.9425L7.5 10.6275L13.1925 4.935L14.25 6L7.5 12.75Z" fill="white"/>
+                                </svg>
+                                Save
+                            `;
+                        }
+                    });
+                }
+            });
+        </script>
+
+        <!-- ========================================
+             Mobile Menu Toggle Functionality
+             ======================================== -->
+        <script>
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const sidebar = document.querySelector('.sidebar');
+
+            if (mobileMenuToggle && sidebar) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                });
+                
+                // Close mobile menu when a menu item is clicked
+                const navItems = document.querySelectorAll('.nav-item');
+                navItems.forEach(item => {
+                    item.addEventListener('click', function() {
+                        if (window.innerWidth <= 992) {
+                            sidebar.classList.remove('active');
+                        }
+                    });
+                });
+                
+                // Close mobile menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (window.innerWidth <= 992 && 
+                        !sidebar.contains(event.target) && 
+                        !mobileMenuToggle.contains(event.target)) {
+                        sidebar.classList.remove('active');
+                    }
+                });
+                
+                // Update sidebar visibility on window resize
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth > 992) {
+                        sidebar.classList.remove('active');
+                        sidebar.style.display = 'block';
+                    } else {
+                        if (!sidebar.classList.contains('active')) {
+                            sidebar.style.display = 'none';
+                        }
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>
+</html>

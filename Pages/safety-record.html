@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FuelFlux - Safety Record</title>
+    <!-- CSS Styles Section -->
+    <style>
+        /* Global Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        /* Body Styles */
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        
+        /* Header Styling */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            border-bottom: 1px solid #eaedf3;
+            background-color: #fff;
+        }
+        
+        /* Logo Container */
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo {
+            margin-right: 15px;
+            position: relative;
+        }
+        
+        .logo img {
+            height: 60px;
+            width: 60px;
+            position: relative;
+            top: 5px;
+            left: -5px;
+        }
+        
+        .page-title {
+            font-size: 26px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        /* Header Right Section with Navigation */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        /* Back Button Styling */
+        .back-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            background-color: #f0f2f5;
+            color: #333;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .back-btn:hover {
+            background-color: #e1e5eb;
+        }
+        
+        /* Main Content Area */
+        .main-content {
+            padding: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Safety Record Card */
+        .safety-card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+        }
+        
+        /* Vehicle Header with Icon and Info */
+        .vehicle-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .vehicle-icon {
+            width: 64px;
+            height: 64px;
+            background-color: #e9ecef;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+        }
+        
+        .vehicle-icon svg {
+            width: 36px;
+            height: 36px;
+            fill: #495057;
+        }
+        
+        .vehicle-info {
+            flex: 1;
+        }
+        
+        .vehicle-id {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .vehicle-type {
+            font-size: 16px;
+            color: #6c757d;
+        }
+        
+        /* Status Badge Styles */
+        .status-badge {
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-left: auto;
+        }
+        
+        .status-valid {
+            background-color: #e8f5e9;
+            color: #4CAF50;
+        }
+        
+        .status-expiring {
+            background-color: #fff8e1;
+            color: #ffc107;
+        }
+        
+        .status-expired {
+            background-color: #ffebee;
+            color: #f44336;
+        }
+        
+        /* Form Title */
+        .form-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 25px;
+        }
+        
+        /* Form Group Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 16px;
+            font-weight: 500;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #dfe3e9;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #2c3e50;
+            transition: border-color 0.2s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+        
+        /* Select Dropdown Styling */
+        .form-select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #dfe3e9;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #2c3e50;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.41 0.590027L6 5.17003L10.59 0.590027L12 2.00003L6 8.00003L0 2.00003L1.41 0.590027Z' fill='%236C757D'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            cursor: pointer;
+        }
+        
+        /* Form Row - Two Fields Side by Side */
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        /* Form Action Buttons Container */
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        /* Cancel Button */
+        .cancel-btn {
+            padding: 12px 25px;
+            border: 1px solid #dfe3e9;
+            border-radius: 6px;
+            background-color: #fff;
+            color: #333;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .cancel-btn:hover {
+            background-color: #f0f2f5;
+        }
+        
+        /* Save Button */
+        .save-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .save-btn:hover {
+            background-color: #3d9140;
+        }
+        
+        /* Delete Button */
+        .delete-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            background-color: #f44336;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .delete-btn:hover {
+            background-color: #d32f2f;
+        }
+        
+        /* Required Field Indicator */
+        .required-field {
+            color: #f44336;
+            margin-left: 4px;
+        }
+        
+        /* History Section Styles */
+        .history-section {
+            margin-top: 30px;
+        }
+        
+        .history-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        /* History Table Styles */
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .history-table th {
+            background-color: #f8f9fa;
+            padding: 12px 15px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #6c757d;
+            text-align: left;
+            border-bottom: 1px solid #eaedf3;
+        }
+        
+        .history-table td {
+            padding: 12px 15px;
+            font-size: 14px;
+            color: #2c3e50;
+            border-bottom: 1px solid #eaedf3;
+        }
+        
+        .history-table tr:last-child td {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section with Logo and Navigation -->
+    <div class="header">
+        <div class="logo-container">
+            <div class="logo">
+                <img src="assets/icons/fulefulx.png" alt="FuelFlux Logo">
+            </div>
+            <div class="page-title">Safety Record</div>
+        </div>
+        <div class="header-right">
+            <button class="back-btn" onclick="goBackToAdmin()">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 8.25H5.8725L10.065 4.0575L9 3L3 9L9 15L10.0575 13.9425L5.8725 9.75H15V8.25Z" fill="#333333"/>
+                </svg>
+                Back to Dashboard
+            </button>
+        </div>
+    </div>
+    
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <!-- Safety Record Form Section -->
+        <form class="safety-card" id="safety-record-form">
+            <!-- Vehicle Header with ID and Status -->
+            <div class="vehicle-header">
+                <div class="vehicle-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/>
+                    </svg>
+                </div>
+                <div class="vehicle-info">
+                    <div class="vehicle-id" id="vehicle-id">GJ-19-BA-4772</div>
+                    <div class="vehicle-type" id="vehicle-type">Car - Sedan</div>
+                </div>
+                <span class="status-badge status-valid" id="status-badge">Valid</span>
+            </div>
+            
+            <!-- Testing Information Form Fields -->
+            <h2 class="form-title">Testing Information</h2>
+            
+            <!-- Row 1: Vehicle Number and Type -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Vehicle Number<span class="required-field">*</span></label>
+                    <input type="text" class="form-input" id="vehicle-number" name="vehicleNumber" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Vehicle Type<span class="required-field">*</span></label>
+                    <select class="form-select" id="vehicle-type-select" name="vehicleType" required>
+                        <option value="">Select Vehicle Type</option>
+                        <option value="Car - Sedan">Car - Sedan</option>
+                        <option value="Car - Hatchback">Car - Hatchback</option>
+                        <option value="SUV">SUV</option>
+                        <option value="Commercial Vehicle">Commercial Vehicle</option>
+                        <option value="Two Wheeler">Two Wheeler</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Row 2: Test Dates -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Last Test Date<span class="required-field">*</span></label>
+                    <input type="date" class="form-input" id="last-test-date" name="lastTestDate" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Next Test Date<span class="required-field">*</span></label>
+                    <input type="date" class="form-input" id="next-test-date" name="nextTestDate" required>
+                </div>
+            </div>
+            
+            <!-- Row 3: Testing Center and Certificate -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Testing Center<span class="required-field">*</span></label>
+                    <input type="text" class="form-input" id="testing-center" name="testingCenter" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Certificate Number<span class="required-field">*</span></label>
+                    <input type="text" class="form-input" id="certificate-number" name="certificateNumber" required>
+                </div>
+            </div>
+            
+            <!-- Status Dropdown -->
+            <div class="form-group">
+                <label class="form-label">Status<span class="required-field">*</span></label>
+                <select class="form-select" id="status-select" name="status" required>
+                    <option value="Valid">Valid</option>
+                    <option value="Expiring Soon">Expiring Soon</option>
+                    <option value="Expired">Expired</option>
+                </select>
+            </div>
+            
+            <!-- Additional Notes -->
+            <div class="form-group">
+                <label class="form-label">Additional Notes</label>
+                <textarea class="form-input" id="notes" name="notes" rows="3"></textarea>
+            </div>
+            
+            <!-- Form Action Buttons -->
+            <div class="form-actions">
+                <button type="button" class="delete-btn" id="delete-btn">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4.5 14.25C4.5 15.075 5.175 15.75 6 15.75H12C12.825 15.75 13.5 15.075 13.5 14.25V5.25H4.5V14.25ZM15 3.75H12L11.25 3H6.75L6 3.75H3V5.25H15V3.75Z" fill="white"/>
+                    </svg>
+                    Delete Record
+                </button>
+                <div class="action-buttons">
+                    <button type="button" class="cancel-btn" onclick="goBackToAdmin()">Cancel</button>
+                    <button type="submit" class="save-btn">Save Changes</button>
+                </div>
+            </div>
+        </form>
+        
+        <!-- Testing History Section -->
+        <div class="safety-card history-section">
+            <h2 class="history-title">Testing History</h2>
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Test Date</th>
+                        <th>Testing Center</th>
+                        <th>Certificate Number</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="history-table-body">
+                    <!-- History records will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- JavaScript Section -->
+    <script>
+        // =====================================================
+        // Navigation Functions
+        // =====================================================
+        // Function to go back to admin dashboard
+        function goBackToAdmin() {
+            window.location.href = "admin.html";
+        }
+        
+        // =====================================================
+        // Sample Data for Demonstration
+        // =====================================================
+        // Sample safety records data - in a real app, this would come from a database
+        const safetyRecords = {
+            'GJ-19-BA-4772': {
+                id: 'GJ-19-BA-4772',
+                type: 'Car - Sedan',
+                lastTest: '2025-04-10',
+                nextTest: '2025-10-10',
+                testingCenter: 'Ahmedabad Safety Center',
+                certificateNumber: 'CERT123456',
+                status: 'Valid',
+                notes: 'Regular testing completed with no issues.',
+                history: [
+                    {
+                        testDate: '2025-04-10',
+                        testingCenter: 'Ahmedabad Safety Center',
+                        certificateNumber: 'CERT123456',
+                        status: 'Valid'
+                    },
+                    {
+                        testDate: '2024-10-15',
+                        testingCenter: 'Ahmedabad Safety Center',
+                        certificateNumber: 'CERT123123',
+                        status: 'Valid'
+                    },
+                    {
+                        testDate: '2024-04-20',
+                        testingCenter: 'Gandhinagar Testing Hub',
+                        certificateNumber: 'CERT121212',
+                        status: 'Valid'
+                    }
+                ]
+            },
+            'GJ-19-BA-9821': {
+                id: 'GJ-19-BA-9821',
+                type: 'SUV',
+                lastTest: '2024-12-05',
+                nextTest: '2025-06-05',
+                testingCenter: 'Gandhinagar Testing Hub',
+                certificateNumber: 'CERT789012',
+                status: 'Expiring Soon',
+                notes: 'Minor issues found during last test. Will need thorough inspection next time.',
+                history: [
+                    {
+                        testDate: '2024-12-05',
+                        testingCenter: 'Gandhinagar Testing Hub',
+                        certificateNumber: 'CERT789012',
+                        status: 'Valid'
+                    },
+                    {
+                        testDate: '2024-06-10',
+                        testingCenter: 'Ahmedabad Safety Center',
+                        certificateNumber: 'CERT789000',
+                        status: 'Valid'
+                    }
+                ]
+            },
+            'GJ-19-BA-7891': {
+                id: 'GJ-19-BA-7891',
+                type: 'Car - Hatchback',
+                lastTest: '2024-11-30',
+                nextTest: '2025-05-30',
+                testingCenter: 'Surat Testing Center',
+                certificateNumber: 'CERT456789',
+                status: 'Expired',
+                notes: 'Failed to meet safety standards during last inspection. Significant corrosion issues found.',
+                history: [
+                    {
+                        testDate: '2024-11-30',
+                        testingCenter: 'Surat Testing Center',
+                        certificateNumber: 'CERT456789',
+                        status: 'Valid'
+                    },
+                    {
+                        testDate: '2024-05-25',
+                        testingCenter: 'Surat Testing Center',
+                        certificateNumber: 'CERT456700',
+                        status: 'Valid'
+                    },
+                    {
+                        testDate: '2023-11-20',
+                        testingCenter: 'Vadodara Testing Hub',
+                        certificateNumber: 'CERT456500',
+                        status: 'Valid'
+                    }
+                ]
+            }
+        };
+        
+        // =====================================================
+        // Data Loading and Display Functions
+        // =====================================================
+        // Load safety record data based on URL parameter
+        function loadSafetyRecordData() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const vehicleId = urlParams.get('id');
+            
+            if (vehicleId && safetyRecords[vehicleId]) {
+                const record = safetyRecords[vehicleId];
+                
+                // Set vehicle header information
+                document.getElementById('vehicle-id').textContent = record.id;
+                document.getElementById('vehicle-type').textContent = record.type;
+                
+                // Set status badge
+                const statusBadge = document.getElementById('status-badge');
+                statusBadge.textContent = record.status;
+                if (record.status === 'Valid') {
+                    statusBadge.className = 'status-badge status-valid';
+                } else if (record.status === 'Expiring Soon') {
+                    statusBadge.className = 'status-badge status-expiring';
+                } else {
+                    statusBadge.className = 'status-badge status-expired';
+                }
+                
+                // Fill form fields with safety record data
+                document.getElementById('vehicle-number').value = record.id;
+                document.getElementById('vehicle-type-select').value = record.type;
+                document.getElementById('last-test-date').value = record.lastTest;
+                document.getElementById('next-test-date').value = record.nextTest;
+                document.getElementById('testing-center').value = record.testingCenter;
+                document.getElementById('certificate-number').value = record.certificateNumber;
+                document.getElementById('status-select').value = record.status;
+                document.getElementById('notes').value = record.notes || '';
+                
+                // Populate testing history
+                const historyTableBody = document.getElementById('history-table-body');
+                historyTableBody.innerHTML = '';
+                
+                record.history.forEach(historyItem => {
+                    const row = document.createElement('tr');
+                    
+                    const dateCell = document.createElement('td');
+                    dateCell.textContent = formatDate(historyItem.testDate);
+                    
+                    const centerCell = document.createElement('td');
+                    centerCell.textContent = historyItem.testingCenter;
+                    
+                    const certCell = document.createElement('td');
+                    certCell.textContent = historyItem.certificateNumber;
+                    
+                    const statusCell = document.createElement('td');
+                    const statusSpan = document.createElement('span');
+                    statusSpan.textContent = historyItem.status;
+                    
+                    if (historyItem.status === 'Valid') {
+                        statusSpan.className = 'status-badge status-valid';
+                    } else if (historyItem.status === 'Expiring Soon') {
+                        statusSpan.className = 'status-badge status-expiring';
+                    } else {
+                        statusSpan.className = 'status-badge status-expired';
+                    }
+                    
+                    statusCell.appendChild(statusSpan);
+                    
+                    row.appendChild(dateCell);
+                    row.appendChild(centerCell);
+                    row.appendChild(certCell);
+                    row.appendChild(statusCell);
+                    
+                    historyTableBody.appendChild(row);
+                });
+                
+                // Set delete button action
+                document.getElementById('delete-btn').addEventListener('click', function() {
+                    if (confirm(`Are you sure you want to delete safety record for ${record.id}?`)) {
+                        // In a real app, this would make an API call to delete the record
+                        alert(`Safety record for ${record.id} has been deleted!`);
+                        
+                        // Redirect back to the admin dashboard
+                        setTimeout(() => {
+                            window.location.href = "admin.html";
+                        }, 1000);
+                    }
+                });
+            } else {
+                // If no record data is found, show an error message
+                document.querySelector('.main-content').innerHTML = `
+                    <div class="safety-card">
+                        <h2 class="form-title">Safety Record Not Found</h2>
+                        <p>The safety record you're looking for doesn't exist or has been removed.</p>
+                        <button class="back-btn" onclick="goBackToAdmin()" style="margin-top: 20px;">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15 8.25H5.8725L10.065 4.0575L9 3L3 9L9 15L10.0575 13.9425L5.8725 9.75H15V8.25Z" fill="#333333"/>
+                            </svg>
+                            Back to Dashboard
+                        </button>
+                    </div>
+                `;
+            }
+        }
+        
+        // =====================================================
+        // Utility Functions
+        // =====================================================
+        // Helper function to format date
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('en-US', options);
+        }
+        
+        // Calculate next test date (6 months from last test date)
+        function calculateNextTestDate() {
+            const lastTestDate = document.getElementById('last-test-date').value;
+            if (lastTestDate) {
+                const nextDate = new Date(lastTestDate);
+                nextDate.setMonth(nextDate.getMonth() + 6);
+                
+                // Format the date to YYYY-MM-DD
+                const year = nextDate.getFullYear();
+                const month = String(nextDate.getMonth() + 1).padStart(2, '0');
+                const day = String(nextDate.getDate()).padStart(2, '0');
+                
+                document.getElementById('next-test-date').value = `${year}-${month}-${day}`;
+            }
+        }
+        
+        // =====================================================
+        // Event Handlers and Form Logic
+        // =====================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize the page by loading safety record data
+            loadSafetyRecordData();
+            
+            // Auto-calculate next test date when last test date changes
+            document.getElementById('last-test-date').addEventListener('change', calculateNextTestDate);
+            
+            // Form submission
+            const form = document.getElementById('safety-record-form');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Get form data
+                    const formData = new FormData(this);
+                    const safetyData = {};
+                    
+                    for (const [key, value] of formData.entries()) {
+                        safetyData[key] = value;
+                    }
+                    
+                    // In a real app, this would make an API call to update the safety record
+                    console.log('Updating safety record:', safetyData);
+                    
+                    // Update the status badge
+                    const statusBadge = document.getElementById('status-badge');
+                    statusBadge.textContent = safetyData.status;
+                    
+                    if (safetyData.status === 'Valid') {
+                        statusBadge.className = 'status-badge status-valid';
+                    } else if (safetyData.status === 'Expiring Soon') {
+                        statusBadge.className = 'status-badge status-expiring';
+                    } else {
+                        statusBadge.className = 'status-badge status-expired';
+                    }
+                    
+                    // Update the vehicle type
+                    document.getElementById('vehicle-type').textContent = safetyData.vehicleType;
+                    
+                    // Show success message
+                    alert('Safety record updated successfully!');
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

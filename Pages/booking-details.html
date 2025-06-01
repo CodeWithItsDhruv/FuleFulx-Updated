@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FuelFlux - Booking Details</title>
+    <!-- CSS Styles Section -->
+    <style>
+        /* Global Reset - Basic styling reset for consistent rendering */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        /* Body Styles */
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        
+        /* Header Bar Styling */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            border-bottom: 1px solid #eaedf3;
+            background-color: #fff;
+        }
+        
+        /* Logo Container */
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo {
+            margin-right: 15px;
+            position: relative;
+        }
+        
+        .logo img {
+            height: 60px;
+            width: 60px;
+            position: relative;
+            top: 5px;
+            left: -5px;
+        }
+        
+        .page-title {
+            font-size: 26px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        /* Header Right Section with Navigation */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        /* Back Button Styling */
+        .back-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            background-color: #f0f2f5;
+            color: #333;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .back-btn:hover {
+            background-color: #e1e5eb;
+        }
+        
+        /* Main Content Area */
+        .main-content {
+            padding: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Booking Details Card - Main information container */
+        .booking-details-card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+            margin-bottom: 20px;
+        }
+        
+        /* Booking Header with ID and Status */
+        .booking-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        
+        .booking-id {
+            font-size: 24px;
+            color: #6c757d;
+        }
+        
+        /* Status Badge Styling */
+        .booking-status {
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .status-confirmed {
+            background-color: #ecf9ef;
+            color: #28a745;
+        }
+        
+        .status-pending {
+            background-color: #fff8e0;
+            color: #ffc107;
+        }
+        
+        /* Customer Name Styling */
+        .customer-name {
+            font-size: 32px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        /* Pump Location with Icon */
+        .pump-location {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #6c757d;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        
+        /* Details Grid - Two column layout for booking information */
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        /* Single Detail Group */
+        .detail-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .detail-label {
+            font-size: 16px;
+            color: #6c757d;
+        }
+        
+        .detail-value {
+            font-size: 22px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        /* Action Buttons Container */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        /* Base Action Button Styling */
+        .action-btn {
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+        }
+        
+        /* Approve Button - Green */
+        .approve-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .approve-btn:hover {
+            background-color: #3d9140;
+        }
+        
+        /* Reject Button - Red */
+        .reject-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        
+        .reject-btn:hover {
+            background-color: #d32f2f;
+        }
+        
+        /* Edit Button - Blue */
+        .edit-btn {
+            background-color: #2196F3;
+            color: white;
+        }
+        
+        .edit-btn:hover {
+            background-color: #1976D2;
+        }
+        
+        /* Cancel Button - Light Gray */
+        .cancel-btn {
+            background-color: #f0f2f5;
+            color: #333;
+            border: 1px solid #dfe3e9;
+        }
+        
+        .cancel-btn:hover {
+            background-color: #e1e5eb;
+        }
+        
+        /* Additional Sections Styling */
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        /* Payment and Vehicle Details Cards */
+        .payment-details, .vehicle-details {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section with Logo and Navigation -->
+    <div class="header">
+        <div class="logo-container">
+            <div class="logo">
+                <img src="assets/icons/fulefulx.png" alt="FuelFlux Logo">
+            </div>
+            <div class="page-title">Booking Details</div>
+        </div>
+        <div class="header-right">
+            <button class="back-btn" onclick="goBackToAdmin()">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 8.25H5.8725L10.065 4.0575L9 3L3 9L9 15L10.0575 13.9425L5.8725 9.75H15V8.25Z" fill="#333333"/>
+                </svg>
+                Back to Dashboard
+            </button>
+        </div>
+    </div>
+    
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <!-- Primary Booking Details Card -->
+        <div class="booking-details-card">
+            <!-- Booking ID and Status Header -->
+            <div class="booking-header">
+                <span class="booking-id" id="booking-id">#BK00123</span>
+                <span class="booking-status status-confirmed" id="booking-status">Confirmed</span>
+            </div>
+            <!-- Customer Name -->
+            <h2 class="customer-name" id="customer-name">John Doe</h2>
+            <!-- Pump Location with Map Icon -->
+            <div class="pump-location" id="pump-location">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 1.5C6.0975 1.5 3.75 3.8475 3.75 6.75C3.75 10.6875 9 16.5 9 16.5C9 16.5 14.25 10.6875 14.25 6.75C14.25 3.8475 11.9025 1.5 9 1.5ZM9 8.625C8.505 8.625 8.03099 8.43001 7.68176 8.08176C7.33252 7.73252 7.13752 7.25851 7.13752 6.76351C7.13752 6.2685 7.33252 5.7945 7.68176 5.44525C8.03099 5.09601 8.505 4.90101 9 4.90101C9.495 4.90101 9.96901 5.09601 10.3182 5.44525C10.6675 5.7945 10.8625 6.2685 10.8625 6.76351C10.8625 7.25851 10.6675 7.73252 10.3182 8.08176C9.96901 8.43001 9.495 8.625 9 8.625Z" fill="#6C757D"/>
+                </svg>
+                Pump Station #3, Sector 18
+            </div>
+            
+            <!-- Booking Details Grid - Two column layout -->
+            <div class="details-grid">
+                <!-- Booking Date -->
+                <div class="detail-group">
+                    <div class="detail-label">Booking Date</div>
+                    <div class="detail-value" id="booking-date">May 15, 2025</div>
+                </div>
+                <!-- Booking Time -->
+                <div class="detail-group">
+                    <div class="detail-label">Booking Time</div>
+                    <div class="detail-value" id="booking-time">10:30 AM</div>
+                </div>
+                <!-- Fuel Type -->
+                <div class="detail-group">
+                    <div class="detail-label">Fuel Type</div>
+                    <div class="detail-value" id="fuel-type">Petrol</div>
+                </div>
+                <!-- Amount -->
+                <div class="detail-group">
+                    <div class="detail-label">Amount</div>
+                    <div class="detail-value" id="amount">₹1,500</div>
+                </div>
+                <!-- Quantity -->
+                <div class="detail-group">
+                    <div class="detail-label">Quantity</div>
+                    <div class="detail-value" id="quantity">15.8 liters</div>
+                </div>
+                <!-- Phone Number -->
+                <div class="detail-group">
+                    <div class="detail-label">Phone Number</div>
+                    <div class="detail-value" id="phone">+91 9876543210</div>
+                </div>
+            </div>
+            
+            <!-- Action Buttons - Dynamically populated based on booking status -->
+            <div class="action-buttons" id="action-buttons">
+                <!-- Buttons shown based on booking status -->
+            </div>
+        </div>
+        
+        <!-- Payment Details Section -->
+        <div class="payment-details">
+            <h3 class="section-title">Payment Details</h3>
+            <div class="details-grid">
+                <!-- Payment Method -->
+                <div class="detail-group">
+                    <div class="detail-label">Payment Method</div>
+                    <div class="detail-value" id="payment-method">Credit Card</div>
+                </div>
+                <!-- Payment Status -->
+                <div class="detail-group">
+                    <div class="detail-label">Payment Status</div>
+                    <div class="detail-value" id="payment-status">Paid</div>
+                </div>
+                <!-- Transaction ID -->
+                <div class="detail-group">
+                    <div class="detail-label">Transaction ID</div>
+                    <div class="detail-value" id="transaction-id">TXN123456789</div>
+                </div>
+                <!-- Payment Date -->
+                <div class="detail-group">
+                    <div class="detail-label">Payment Date</div>
+                    <div class="detail-value" id="payment-date">May 14, 2025</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Vehicle Details Section -->
+        <div class="vehicle-details">
+            <h3 class="section-title">Vehicle Details</h3>
+            <div class="details-grid">
+                <!-- Vehicle Type -->
+                <div class="detail-group">
+                    <div class="detail-label">Vehicle Type</div>
+                    <div class="detail-value" id="vehicle-type">Car - Sedan</div>
+                </div>
+                <!-- Vehicle Number -->
+                <div class="detail-group">
+                    <div class="detail-label">Vehicle Number</div>
+                    <div class="detail-value" id="vehicle-number">GJ-01-AB-1234</div>
+                </div>
+                <!-- Vehicle Model -->
+                <div class="detail-group">
+                    <div class="detail-label">Vehicle Model</div>
+                    <div class="detail-value" id="vehicle-model">Honda City</div>
+                </div>
+                <!-- Fuel Capacity -->
+                <div class="detail-group">
+                    <div class="detail-label">Fuel Capacity</div>
+                    <div class="detail-value" id="fuel-capacity">40 liters</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript Section -->
+    <script>
+        // =====================================================
+        // Navigation Functions
+        // =====================================================
+        // Function to navigate back to admin dashboard
+        function goBackToAdmin() {
+            window.location.href = "admin.html";
+        }
+        
+        // =====================================================
+        // Data Retrieval Functions
+        // =====================================================
+        // Get booking data from URL parameters
+        function getBookingData() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const bookingId = urlParams.get('id');
+            
+            // Sample booking data - in a real app, this would come from a database
+            const bookings = {
+                'BK00123': {
+                    id: '#BK00123',
+                    customer: 'John Doe',
+                    location: 'Pump Station #3, Sector 18',
+                    date: 'May 15, 2025',
+                    time: '10:30 AM',
+                    fuel: 'Petrol',
+                    amount: '₹1,500',
+                    status: 'Confirmed',
+                    quantity: '15.8 liters',
+                    phone: '+91 9876543210',
+                    payment: {
+                        method: 'Credit Card',
+                        status: 'Paid',
+                        transactionId: 'TXN123456789',
+                        date: 'May 14, 2025'
+                    },
+                    vehicle: {
+                        type: 'Car - Sedan',
+                        number: 'GJ-01-AB-1234',
+                        model: 'Honda City',
+                        capacity: '40 liters'
+                    }
+                },
+                'BK00124': {
+                    id: '#BK00124',
+                    customer: 'Jane Smith',
+                    location: 'Pump Station #1, Sector 22',
+                    date: 'May 15, 2025',
+                    time: '2:15 PM',
+                    fuel: 'Diesel',
+                    amount: '₹2,000',
+                    status: 'Pending',
+                    quantity: '22.2 liters',
+                    phone: '+91 9876554321',
+                    payment: {
+                        method: 'UPI',
+                        status: 'Pending',
+                        transactionId: 'TXN987654321',
+                        date: 'May 15, 2025'
+                    },
+                    vehicle: {
+                        type: 'SUV',
+                        number: 'GJ-01-CD-5678',
+                        model: 'Hyundai Creta',
+                        capacity: '50 liters'
+                    }
+                }
+            };
+            
+            // Return the booking data if it exists
+            return bookings[bookingId.replace('#', '')] || null;
+        }
+        
+        // =====================================================
+        // UI Population Functions
+        // =====================================================
+        // Populate the booking details page with data
+        function populateBookingDetails() {
+            const bookingData = getBookingData();
+            
+            if (bookingData) {
+                // Set the basic details
+                document.getElementById('booking-id').textContent = bookingData.id;
+                document.getElementById('customer-name').textContent = bookingData.customer;
+                document.getElementById('pump-location').innerHTML = `
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 1.5C6.0975 1.5 3.75 3.8475 3.75 6.75C3.75 10.6875 9 16.5 9 16.5C9 16.5 14.25 10.6875 14.25 6.75C14.25 3.8475 11.9025 1.5 9 1.5ZM9 8.625C8.505 8.625 8.03099 8.43001 7.68176 8.08176C7.33252 7.73252 7.13752 7.25851 7.13752 6.76351C7.13752 6.2685 7.33252 5.7945 7.68176 5.44525C8.03099 5.09601 8.505 4.90101 9 4.90101C9.495 4.90101 9.96901 5.09601 10.3182 5.44525C10.6675 5.7945 10.8625 6.2685 10.8625 6.76351C10.8625 7.25851 10.6675 7.73252 10.3182 8.08176C9.96901 8.43001 9.495 8.625 9 8.625Z" fill="#6C757D"/>
+                    </svg>
+                    ${bookingData.location}
+                `;
+                document.getElementById('booking-date').textContent = bookingData.date;
+                document.getElementById('booking-time').textContent = bookingData.time;
+                document.getElementById('fuel-type').textContent = bookingData.fuel;
+                document.getElementById('amount').textContent = bookingData.amount;
+                document.getElementById('quantity').textContent = bookingData.quantity;
+                document.getElementById('phone').textContent = bookingData.phone;
+                
+                // Set status with the appropriate class
+                const statusElement = document.getElementById('booking-status');
+                statusElement.textContent = bookingData.status;
+                if (bookingData.status === 'Confirmed') {
+                    statusElement.className = 'booking-status status-confirmed';
+                } else {
+                    statusElement.className = 'booking-status status-pending';
+                }
+                
+                // Set payment details
+                document.getElementById('payment-method').textContent = bookingData.payment.method;
+                document.getElementById('payment-status').textContent = bookingData.payment.status;
+                document.getElementById('transaction-id').textContent = bookingData.payment.transactionId;
+                document.getElementById('payment-date').textContent = bookingData.payment.date;
+                
+                // Set vehicle details
+                document.getElementById('vehicle-type').textContent = bookingData.vehicle.type;
+                document.getElementById('vehicle-number').textContent = bookingData.vehicle.number;
+                document.getElementById('vehicle-model').textContent = bookingData.vehicle.model;
+                document.getElementById('fuel-capacity').textContent = bookingData.vehicle.capacity;
+                
+                // Set action buttons based on booking status
+                const actionButtons = document.getElementById('action-buttons');
+                
+                // Different buttons for Pending vs. Confirmed bookings
+                if (bookingData.status === 'Pending') {
+                    actionButtons.innerHTML = `
+                        <button class="action-btn approve-btn" onclick="approveBooking('${bookingData.id}')">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6.75 12.15L3.6 9L2.55 10.05L6.75 14.25L15.75 5.25L14.7 4.2L6.75 12.15Z" fill="white"/>
+                            </svg>
+                            Approve Booking
+                        </button>
+                        <button class="action-btn reject-btn" onclick="rejectBooking('${bookingData.id}')">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14.25 4.8075L13.1925 3.75L9 7.9425L4.8075 3.75L3.75 4.8075L7.9425 9L3.75 13.1925L4.8075 14.25L9 10.0575L13.1925 14.25L14.25 13.1925L10.0575 9L14.25 4.8075Z" fill="white"/>
+                            </svg>
+                            Reject Booking
+                        </button>
+                    `;
+                } else {
+                    actionButtons.innerHTML = `
+                        <button class="action-btn edit-btn" onclick="editBooking('${bookingData.id}')">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2.25 12.9375V15.75H5.0625L13.3575 7.455L10.545 4.6425L2.25 12.9375ZM15.5325 5.28C15.825 4.9875 15.825 4.515 15.5325 4.2225L13.7775 2.4675C13.485 2.175 13.0125 2.175 12.72 2.4675L11.3475 3.84L14.16 6.6525L15.5325 5.28Z" fill="white"/>
+                            </svg>
+                            Edit Booking
+                        </button>
+                        <button class="action-btn cancel-btn" onclick="cancelBooking('${bookingData.id}')">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14.25 4.8075L13.1925 3.75L9 7.9425L4.8075 3.75L3.75 4.8075L7.9425 9L3.75 13.1925L4.8075 14.25L9 10.0575L13.1925 14.25L14.25 13.1925L10.0575 9L14.25 4.8075Z" fill="#333333"/>
+                            </svg>
+                            Cancel Booking
+                        </button>
+                    `;
+                }
+            } else {
+                // If no booking data is found, show an error message
+                document.querySelector('.main-content').innerHTML = `
+                    <div class="booking-details-card">
+                        <h2 class="customer-name">Booking Not Found</h2>
+                        <p>The booking you're looking for doesn't exist or has been removed.</p>
+                        <button class="back-btn" onclick="goBackToAdmin()" style="margin-top: 20px;">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15 8.25H5.8725L10.065 4.0575L9 3L3 9L9 15L10.0575 13.9425L5.8725 9.75H15V8.25Z" fill="#333333"/>
+                            </svg>
+                            Back to Dashboard
+                        </button>
+                    </div>
+                `;
+            }
+        }
+        
+        // =====================================================
+        // Booking Action Functions
+        // =====================================================
+        // Function to approve a pending booking
+        function approveBooking(bookingId) {
+            // In a real app, this would make an API call to update the booking status
+            alert(`Booking ${bookingId} has been approved!`);
+            
+            // Update the UI to reflect the new status
+            document.getElementById('booking-status').textContent = 'Confirmed';
+            document.getElementById('booking-status').className = 'booking-status status-confirmed';
+            
+            // Update the action buttons for the new status
+            document.getElementById('action-buttons').innerHTML = `
+                <button class="action-btn edit-btn" onclick="editBooking('${bookingId}')">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2.25 12.9375V15.75H5.0625L13.3575 7.455L10.545 4.6425L2.25 12.9375ZM15.5325 5.28C15.825 4.9875 15.825 4.515 15.5325 4.2225L13.7775 2.4675C13.485 2.175 13.0125 2.175 12.72 2.4675L11.3475 3.84L14.16 6.6525L15.5325 5.28Z" fill="white"/>
+                    </svg>
+                    Edit Booking
+                </button>
+                <button class="action-btn cancel-btn" onclick="cancelBooking('${bookingId}')">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14.25 4.8075L13.1925 3.75L9 7.9425L4.8075 3.75L3.75 4.8075L7.9425 9L3.75 13.1925L4.8075 14.25L9 10.0575L13.1925 14.25L14.25 13.1925L10.0575 9L14.25 4.8075Z" fill="#333333"/>
+                    </svg>
+                    Cancel Booking
+                </button>
+            `;
+        }
+        
+        // Function to reject a pending booking
+        function rejectBooking(bookingId) {
+            // In a real app, this would make an API call to update the booking status
+            const reason = prompt('Please provide a reason for rejecting this booking:');
+            
+            if (reason) {
+                alert(`Booking ${bookingId} has been rejected! Reason: ${reason}`);
+                
+                // Redirect back to the admin dashboard
+                setTimeout(() => {
+                    window.location.href = "admin.html";
+                }, 1000);
+            }
+        }
+        
+        // Function to edit a confirmed booking
+        function editBooking(bookingId) {
+            // In a real app, this would open a form to edit the booking
+            alert(`Editing booking ${bookingId}`);
+            
+            // Redirect to a booking edit page (which would be created in a real app)
+            // window.location.href = `booking-edit.html?id=${bookingId.replace('#', '')}`;
+        }
+        
+        // Function to cancel a confirmed booking
+        function cancelBooking(bookingId) {
+            // In a real app, this would make an API call to cancel the booking
+            if (confirm(`Are you sure you want to cancel booking ${bookingId}?`)) {
+                alert(`Booking ${bookingId} has been cancelled!`);
+                
+                // Redirect back to the admin dashboard
+                setTimeout(() => {
+                    window.location.href = "admin.html";
+                }, 1000);
+            }
+        }
+        
+        // =====================================================
+        // Initialization
+        // =====================================================
+        // Initialize the page on DOM content loaded
+        document.addEventListener('DOMContentLoaded', populateBookingDetails);
+    </script>
+</body>
+</html> 

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FuelFlux - Alert</title>
+    <!-- CSS Styles Section -->
+    <style>
+        /* Global Reset - Basic styling reset for consistent rendering */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        /* Body Styles */
+        body {
+            background-color: #f5f7fa;
+        }
+        
+        /* Header Bar Styling */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+        }
+        
+        /* Logo and Title Container */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        /* Logo Styling */
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Logo Image and Circle Background */
+        .logo img, .logo-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #ff7e33;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Logo Text */
+        .logo-text {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-left: 10px;
+        }
+        
+        /* Page Title */
+        .page-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        /* Header Right Section - Notifications and Logout */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        /* Notification Bell Icon */
+        .notification-icon {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+        
+        /* Logout Button */
+        .logout-btn {
+            padding: 8px 16px;
+            background-color: transparent;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .logout-btn:hover {
+            background-color: #f0f2f5;
+        }
+        
+        /* Main Content Area */
+        .content {
+            max-width: 800px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+        
+        /* Alert Box Container */
+        .alert-container {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        /* Alert Header with Icon and Title */
+        .alert-header {
+            background-color: #d9342c;
+            color: white;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        /* Alert Icon */
+        .alert-icon {
+            margin-right: 12px;
+            font-size: 20px;
+        }
+        
+        /* Alert Title */
+        .alert-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        /* Alert Body - Contains the message and action buttons */
+        .alert-body {
+            background-color: #d9342c;
+            color: white;
+            padding: 30px 20px;
+        }
+        
+        /* Alert Message Text */
+        .alert-message {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+        
+        /* Action Buttons Container */
+        .alert-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+        
+        /* Base Button Styles */
+        .btn {
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.2s;
+        }
+        
+        /* Dismiss Button - Light style */
+        .btn-dismiss {
+            background-color: white;
+            color: #333;
+        }
+        
+        .btn-dismiss:hover {
+            background-color: #f0f0f0;
+        }
+        
+        /* Action Button - Primary style */
+        .btn-action {
+            background-color: white;
+            color: #333;
+        }
+        
+        .btn-action:hover {
+            background-color: #f0f0f0;
+        }
+        
+        /* Responsive Design Styles */
+        /* Tablet Breakpoint */
+        @media (max-width: 768px) {
+            .content {
+                margin: 40px auto;
+            }
+            
+            .alert-message {
+                font-size: 24px;
+            }
+            
+            .alert-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+        
+        /* Mobile Breakpoint */
+        @media (max-width: 576px) {
+            .header {
+                padding: 12px 16px;
+            }
+            
+            .logo-text {
+                font-size: 20px;
+            }
+            
+            .page-title {
+                font-size: 18px;
+            }
+            
+            .alert-message {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section with Logo and Controls -->
+    <div class="header">
+        <!-- Left Side - Logo and Page Title -->
+        <div class="logo-container">
+            <div class="logo">
+                <div class="logo-circle">
+                    <img src="assets/icons/fulefulx.png" alt="FuelFlux Logo">
+                </div>
+                <span class="logo-text">FuelFlux</span>
+            </div>
+            <div class="page-title">Alert</div>
+        </div>
+        <!-- Right Side - Notifications and Logout -->
+        <div class="header-right">
+            <div class="notification-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 22C13.1 22 14 21.1 14 20H10C10 21.1 10.9 22 12 22ZM18 16V11C18 7.93 16.36 5.36 13.5 4.68V4C13.5 3.17 12.83 2.5 12 2.5C11.17 2.5 10.5 3.17 10.5 4V4.68C7.63 5.36 6 7.92 6 11V16L4 18V19H20V18L18 16Z" fill="#333333"/>
+                </svg>
+            </div>
+            <button class="logout-btn">Logout</button>
+        </div>
+    </div>
+    
+    <!-- Main Content Area -->
+    <div class="content">
+        <!-- Emergency Alert Container -->
+        <div class="alert-container">
+            <!-- Alert Header with Warning Icon -->
+            <div class="alert-header">
+                <div class="alert-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 5.99L19.53 19H4.47L12 5.99ZM12 2L1 21H23L12 2ZM13 16H11V18H13V16ZM13 10H11V14H13V10Z" fill="white"/>
+                    </svg>
+                </div>
+                <div class="alert-title">URGENT ALERT</div>
+            </div>
+            <!-- Alert Body with Message and Action Buttons -->
+            <div class="alert-body">
+                <div class="alert-message">FIRE IN THE STATION</div>
+                <div class="alert-actions">
+                    <button class="btn btn-dismiss" id="dismissBtn">Dismiss</button>
+                    <button class="btn btn-action" id="actionBtn">Take Action</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript Section -->
+    <script>
+        // =====================================================
+        // Initialize Event Listeners When DOM is Loaded
+        // =====================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            // =====================================================
+            // Button Event Handlers
+            // =====================================================
+            
+            // Dismiss button functionality - Close the alert
+            const dismissBtn = document.getElementById('dismissBtn');
+            if (dismissBtn) {
+                dismissBtn.addEventListener('click', function() {
+                    // In a real app, you might want to mark this alert as read/dismissed in the database
+                    console.log('Alert dismissed');
+                    window.location.href = 'admin.html';
+                });
+            }
+            
+            // Take Action button functionality - Trigger emergency response
+            const actionBtn = document.getElementById('actionBtn');
+            if (actionBtn) {
+                actionBtn.addEventListener('click', function() {
+                    // In a real app, this would trigger emergency protocols
+                    alert('Emergency protocols activated. Please follow your station\'s evacuation procedures.');
+                    // Perhaps navigate to an emergency procedures page
+                    window.location.href = 'emergency-procedures.html';
+                });
+            }
+            
+            // Logout button functionality - Return to login page
+            const logoutBtn = document.querySelector('.logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function() {
+                    // In a real app, this would log the user out
+                    window.location.href = 'login.html';
+                });
+            }
+            
+            // =====================================================
+            // Animation Effects
+            // =====================================================
+            // For demonstration purposes: Make the alert appear with a slight delay
+            setTimeout(function() {
+                const alertContainer = document.querySelector('.alert-container');
+                if (alertContainer) {
+                    alertContainer.style.animation = 'none'; // Reset animation
+                    alertContainer.offsetHeight; // Trigger reflow
+                    alertContainer.style.animation = 'slideIn 0.5s ease-out forwards';
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html> 
